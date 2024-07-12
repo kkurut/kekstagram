@@ -1,11 +1,9 @@
-
+/* eslint-disable*/
 const stringCheck = (string, maxLenth) => {
-  let check = (string.length <= maxLenth) ? true : false;
-  console.log(check)
-}
-stringCheck('skldlkasfdgfdsvgdfslkfldkglkf ,/.,,ll', 100)
-
-
+  const check = string.length <= maxLenth;
+  console.log(check);
+};
+stringCheck('skldlkasfdgfdsvgdfslkfldkglkf ,/.,,ll', 100);
 
 const getPalindrome = (input) => {
   const normalizedStr = input.replaceAll(' ', '').toLowerCase();
@@ -15,8 +13,6 @@ const getPalindrome = (input) => {
   for (let i = normalizedStr.length - 1; i >= 0; --i) {
     reversedStroke += normalizedStr[i];
   }
-
-  console.log(reversedStroke);
 
   return normalizedStr === reversedStroke;
 };
