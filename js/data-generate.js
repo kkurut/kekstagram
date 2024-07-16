@@ -1,4 +1,4 @@
-import { getRandom } from './util.js'
+import { getRandom } from './util.js';
 const descriptions = [
   '🌟 Живу, мечтаю, создаю.',
   '✈️ Вечно на пути к новому приключению.',
