@@ -102,11 +102,6 @@ const commentMinMax = {
   MAX: 30,
 };
 
-const imgMinMax = {
-  MIN: 1,
-  MAX: 25,
-};
-
 const getRandomArrayElement = (elements) => elements[getRandom(0, elements.length - 1)];
 
 const usedPictureIds = new Set();
