@@ -1,5 +1,5 @@
 import { getRandom } from './util.js';
-const descriptions = [
+const DESCRIPTIONS = [
   '🌟 Живу, мечтаю, создаю.',
   '✈️ Вечно на пути к новому приключению.',
   '📸 Захватываю моменты жизни.',
@@ -27,7 +27,7 @@ const descriptions = [
   '🌞 Приношу свет в каждый день.',
 ];
 
-const messages = [
+const MESSAGES = [
   'Это просто потрясающе! Мне нужно срочно узнать, где этот рай на земле находится. 😍',
   'Вау, такое ощущение, что вы поймали единорога в кадр! 🦄',
   'Как вам удалось так красиво сфотографировать место, где я бывал в своих мечтах? 😆',
@@ -54,7 +54,7 @@ const messages = [
 ];
 
 
-const names = [
+const NAMES = [
   'Алексей',
   'Ольга',
   'Дмитрий',
@@ -85,6 +85,7 @@ const names = [
 const getRandomArrayElement = (elements) => elements[getRandom(0, elements.length - 1)];
 
 const usedPictureIds = new Set();
+const usedPicture = new Set();
 const usedCommentIds = new Set();
 
 const generateUniqueId = (usedIds, min, max) => {
@@ -99,18 +100,18 @@ const generateUniqueId = (usedIds, min, max) => {
 const getComment = () => ({
   id: generateUniqueId(usedCommentIds, 1, 5000),
   avatar: `img/avatar-${getRandom(1, 6)}.svg`,
-  message: Array.from({ length: getRandom(1, 2) }, () => getRandomArrayElement(messages)),
-  name: getRandomArrayElement(names),
+  message: Array.from({ length: getRandom(1, 2) }, () => getRandomArrayElement(MESSAGES)),
+  name: getRandomArrayElement(NAMES),
 });
 
 const getPicture = () => ({
   id: generateUniqueId(usedPictureIds, 1, 25),
-  url: `photos/${getRandom(1, 25)}.jpg`,
-  description: getRandomArrayElement(descriptions),
-  likes: `${getRandom(15, 300)}❤️`,
+  url: `photos/${generateUniqueId(usedPicture, 1 , 25)}.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandom(15, 300),
   comments: Array.from({ length: getRandom(1, 30) }, () => getComment()),
 });
 
-const similarPictures = Array.from({ length: 25 }, () => getPicture());
+const createPictures = (count) => Array.from({ length: count }, () => getPicture());
 
-export {similarPictures};
+export {createPictures};
