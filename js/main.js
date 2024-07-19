@@ -1,2 +1,4 @@
-import './functions.js';
-import './data-generate.js';
+import {similarPictures} from './data-generate.js';
+// eslint-disable-next-line
+console.log(similarPictures);
+

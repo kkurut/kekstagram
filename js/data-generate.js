@@ -113,5 +113,4 @@ const getPicture = () => ({
 
 const similarPictures = Array.from({ length: 25 }, () => getPicture());
 
-console.table(similarPictures); // eslint-disable-line
-
+export {similarPictures};
