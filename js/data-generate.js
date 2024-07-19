@@ -85,6 +85,7 @@ const NAMES = [
 const getRandomArrayElement = (elements) => elements[getRandom(0, elements.length - 1)];
 
 const usedPictureIds = new Set();
+const usedPicture = new Set();
 const usedCommentIds = new Set();
 
 const generateUniqueId = (usedIds, min, max) => {
@@ -105,12 +106,12 @@ const getComment = () => ({
 
 const getPicture = () => ({
   id: generateUniqueId(usedPictureIds, 1, 25),
-  url: `photos/${getRandom(1, 25)}.jpg`,
+  url: `photos/${generateUniqueId(usedPicture, 1 , 25)}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
-  likes: `${getRandom(15, 300)}❤️`,
+  likes: getRandom(15, 300),
   comments: Array.from({ length: getRandom(1, 30) }, () => getComment()),
 });
 
-const createPictures = (count) => Array.from({ length: count }, () => getPicture());
+const createPictures = () => Array.from({ length: 25 }, () => getPicture());
 
 export {createPictures};
