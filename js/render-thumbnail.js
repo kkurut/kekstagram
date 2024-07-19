@@ -1,5 +1,3 @@
-import { createPictures } from './data-generate';
-
 const pictureContainerElement = document.querySelector('.pictures');
 const pictureTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
 
