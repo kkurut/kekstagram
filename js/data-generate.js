@@ -112,6 +112,6 @@ const getPicture = () => ({
   comments: Array.from({ length: getRandom(1, 30) }, () => getComment()),
 });
 
-const createPictures = () => Array.from({ length: 25 }, () => getPicture());
+const createPictures = (count) => Array.from({ length: count }, () => getPicture());
 
 export {createPictures};
