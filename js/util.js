@@ -6,6 +6,7 @@ const getRandom = (a, b) => {
 };
 const stringCheck = (string, maxLenth) => {
   const check = string.length <= maxLenth;
+  // eslint-disable-next-line
   console.log(check);
 };
 
