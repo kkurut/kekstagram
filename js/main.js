@@ -1,2 +1,3 @@
-import './functions.js';
-import './data-generate.js';
+import { createPictures } from './data-generate';
+import { similarPictures } from './render-thumbnail';
+similarPictures(createPictures(25));
