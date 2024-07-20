@@ -82,22 +82,22 @@ const NAMES = [
   'Денис',
 ];
 
-const avatarMinMax = {
+const Avatar = {
   MIN: 1,
   MAX: 6,
 };
 
-const messageMinMax = {
+const Message = {
   MIN: 1,
   MAX: 2,
 };
 
-const likeMinMax = {
+const Like = {
   MIN: 15,
   MAX: 300,
 };
 
-const commentMinMax = {
+const Comment = {
   MIN: 1,
   MAX: 30,
 };
@@ -119,8 +119,8 @@ const generateUniqueId = (usedIds, min, max) => {
 
 const getComment = () => ({
   id: generateUniqueId(usedCommentIds, 1, 5000),
-  avatar: `img/avatar-${getRandom(avatarMinMax)}.svg`,
-  message: Array.from({ length: getRandom(messageMinMax) }, () => getRandomArrayElement(MESSAGES)),
+  avatar: `img/avatar-${getRandom(Avatar.MIN, Avatar.MAX)}.svg`,
+  message: Array.from({ length: getRandom(Message.MIN, Message.MAX) }, () => getRandomArrayElement(MESSAGES)),
   name: getRandomArrayElement(NAMES),
 });
 
@@ -128,10 +128,10 @@ const getPicture = () => ({
   id: generateUniqueId(usedPictureIds, 1, 25),
   url: `photos/${generateUniqueId(usedPicture, 1 , 25)}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
-  likes: getRandom(likeMinMax),
-  comments: Array.from({ length: getRandom(commentMinMax) }, () => getComment()),
+  likes: getRandom(Like.MIN, Like.MAX),
+  comments: Array.from({ length: getRandom(Comment.MIN, Comment.MAX) }, () => getComment()),
 });
 
-const createPictures = (count) => Array.from({ length: count }, () => getPicture());
+const createPictures = (pictureQnty) => Array.from({ length: pictureQnty }, () => getPicture());
 
 export {createPictures};
