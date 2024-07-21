@@ -134,4 +134,6 @@ const getPicture = () => ({
 
 const createPictures = (pictureQnty) => Array.from({ length: pictureQnty }, () => getPicture());
 
-export {createPictures};
+const arrayPic = createPictures()
+
+export {arrayPic, createPictures, getPicture};

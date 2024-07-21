@@ -1,17 +1,23 @@
 import { getRandom, isEnterKey, isEscapeKey } from "./util";
-import { createPictures} from "./data-generate";
+import { arrayPic, getPicture } from "./data-generate";
 const bodyElement = document.querySelector('body');
 const modalOpenElement = document.querySelector('.modal-open');
 const bigPictureElement = document.querySelector('.big-picture');
+const bigPictureImgElement = bigPictureElement.querySelector('.big-picture__img img')
+const bigPictureDescriptionElement = bigPictureElement.querySelector('.social__caption');
+const bigPictureAvatarElement = bigPictureElement.querySelector('.social__picture');
 const bigPictureCancelElement = document.querySelector('.big-picture__cancel');
 const picturesElement = document.querySelector('.pictures');
 const commentLoaderElement = document.querySelector('.comments-loader');
+const bigPictureDescription = bigPictureElement.querySelector('.social__caption');
+const bigPictureLikes = bigPictureElement.querySelector('.likes-count');
+const bigPictureComments = bigPictureElement.querySelector('.social__comment-count');
 
 //! не работает уёба
 
 //* пока хз как работает
 const onEscKeydown = (evt) => {
-//* проверка нажатия ескейпа
+  //* проверка нажатия ескейпа
   if (isEscapeKey(evt)) {
     //* ссылка отключается и вызывается функция
     evt.preventDefault();
@@ -21,15 +27,26 @@ const onEscKeydown = (evt) => {
 
 
 //*получаем данные бигфото
-const getBigPictureData = (photoId) => {
-  bigPictureElement.querySelector('img').src = createPictures[photoId - 1].url;
-}
+const showBigPicture = ({ url, description, avatar, likes }) => {
+  bigPictureImgElement.src = url;
+  bigPictureDescriptionElement.textContent = description;
+  bigPictureAvatarElement.src = avatar;
+  bigPictureLikes.textContent = likes;
+  bigPictureElement.classList.remove('hidden'); // Показываем big-picture
+};
 
-//* Функция открытия бигфото
-const kek = (evt) => {
-  const currentPhotoId = evt.target.dataset.photoId;
-  getBigPictureData(currentPhotoId);
-  bigPictureElement.classList.remove('hidden')
+const kek = (event) => {
+  const thumbnail = event.target.closest('.picture');
+  if (!thumbnail) return;
+
+  const url = thumbnail.querySelector('.picture__img').src;
+  const avatar = `img/avatar-${getRandom(1, 6)}.svg`;
+  const description = thumbnail.querySelector('.picture__img').alt;
+  const likes = thumbnail.querySelector('.picture__likes').textContent;
+  const comments = thumbnail.querySelector('.picture__comments').textContent;
+
+  showBigPicture({ url, description, avatar, likes});
+
   document.addEventListener('keydown', onEscKeydown)
 }
 
@@ -40,17 +57,9 @@ const kekCancel = () => {
 }
 
 //* обработчик событий для миниатюр
-picturesElement.addEventListener('click', (evt) => {
-  if (evt.target.closest('.picture  ')) {
-    evt.preventDefault();
-    kek()
-  };
-})
-
+picturesElement.addEventListener('click', kek);
 //* обработчик события для крестика
-bigPictureCancelElement.addEventListener('click', (evt) => {
-    kekCancel()
-})
+bigPictureCancelElement.addEventListener('click', kekCancel)
 
 
-export { kek, kekCancel };
+export { kekCancel };
