@@ -1,5 +1,4 @@
 import { getRandom, isEnterKey, isEscapeKey } from "./util";
-import { arrayPic, getPicture } from "./data-generate";
 const bodyElement = document.querySelector('body');
 const modalOpenElement = document.querySelector('.modal-open');
 const bigPictureElement = document.querySelector('.big-picture');
@@ -27,16 +26,17 @@ const onEscKeydown = (evt) => {
 
 
 //*получаем данные бигфото
-const showBigPicture = ({ url, description, avatar, likes }) => {
+const showBigPicture = ({ url, description, avatar, likes, comments }) => {
   bigPictureImgElement.src = url;
   bigPictureDescriptionElement.textContent = description;
   bigPictureAvatarElement.src = avatar;
   bigPictureLikes.textContent = likes;
-  bigPictureElement.classList.remove('hidden'); // Показываем big-picture
+  bigPictureComments.textContent = comments;
 };
 
-const kek = (event) => {
-  const thumbnail = event.target.closest('.picture');
+//* Функция открытия бигфото
+const kek = (evt) => {
+  const thumbnail = evt.target.closest('.picture');
   if (!thumbnail) return;
 
   const url = thumbnail.querySelector('.picture__img').src;
@@ -44,8 +44,10 @@ const kek = (event) => {
   const description = thumbnail.querySelector('.picture__img').alt;
   const likes = thumbnail.querySelector('.picture__likes').textContent;
   const comments = thumbnail.querySelector('.picture__comments').textContent;
+  bigPictureElement.classList.remove('hidden'); // Показываем big-picture
+  bodyElement.classList.add('modal-open')
 
-  showBigPicture({ url, description, avatar, likes});
+  showBigPicture({ url, description, avatar, likes, comments});
 
   document.addEventListener('keydown', onEscKeydown)
 }
@@ -53,6 +55,7 @@ const kek = (event) => {
 //* Функция закрытия бигфото
 const kekCancel = () => {
   bigPictureElement.classList.add('hidden')
+  bodyElement.classList.remove('modal-open')
   document.removeEventListener('keydown', onEscKeydown)
 }
 
