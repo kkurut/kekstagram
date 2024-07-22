@@ -1,15 +1,13 @@
 import { getRandom, isEnterKey, isEscapeKey } from "./util";
+import { arrayPic } from './data-generate.js'
 const bodyElement = document.querySelector('body');
 const modalOpenElement = document.querySelector('.modal-open');
 const bigPictureElement = document.querySelector('.big-picture');
-const bigPictureImgElement = bigPictureElement.querySelector('.big-picture__img img')
-const bigPictureDescriptionElement = bigPictureElement.querySelector('.social__caption');
 const bigPictureAvatarElement = bigPictureElement.querySelector('.social__picture');
 const bigPictureCancelElement = document.querySelector('.big-picture__cancel');
 const picturesElement = document.querySelector('.pictures');
 const commentLoaderElement = document.querySelector('.comments-loader');
 const bigPictureDescription = bigPictureElement.querySelector('.social__caption');
-const bigPictureLikes = bigPictureElement.querySelector('.likes-count');
 const bigPictureComments = bigPictureElement.querySelector('.social__comment-count');
 
 //! не работает уёба
@@ -24,31 +22,10 @@ const onEscKeydown = (evt) => {
   }
 }
 
-
-//*получаем данные бигфото
-const showBigPicture = ({ url, description, avatar, likes, comments }) => {
-  bigPictureImgElement.src = url;
-  bigPictureDescriptionElement.textContent = description;
-  bigPictureAvatarElement.src = avatar;
-  bigPictureLikes.textContent = likes;
-  bigPictureComments.textContent = comments;
-};
-
 //* Функция открытия бигфото
-const kek = (evt) => {
-  const thumbnail = evt.target.closest('.picture');
-  if (!thumbnail) return;
-
-  const url = thumbnail.querySelector('.picture__img').src;
-  const avatar = `img/avatar-${getRandom(1, 6)}.svg`;
-  const description = thumbnail.querySelector('.picture__img').alt;
-  const likes = thumbnail.querySelector('.picture__likes').textContent;
-  const comments = thumbnail.querySelector('.picture__comments').textContent;
-  bigPictureElement.classList.remove('hidden'); // Показываем big-picture
+const kek = () => {
+  bigPictureElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open')
-
-  showBigPicture({ url, description, avatar, likes, comments});
-
   document.addEventListener('keydown', onEscKeydown)
 }
 
@@ -59,8 +36,32 @@ const kekCancel = () => {
   document.removeEventListener('keydown', onEscKeydown)
 }
 
+//*получаем данные бигфото
+const getBigPhoto = (photoId) => {
+  const picData = arrayPic[photoId - 1];
+
+  bigPictureElement.querySelector('.big-picture__img img').src = picData.url;
+  bigPictureElement.querySelector('.likes-count').textContent = picData.likes;
+  bigPictureElement.querySelector('.social__caption').textContent = picData.description;
+};
+
+
+//* функция при клике на миниатюру
+const ClickPhoto = (evt) => {
+  const thumbnail = evt.target.closest('.picture');
+  if (thumbnail) {
+    const currentPic = parseInt(thumbnail.querySelector('.picture__img').dataset.photoId, 10);
+    getBigPhoto(currentPic)
+    kek()
+  }
+}
+
+
+
+
+
 //* обработчик событий для миниатюр
-picturesElement.addEventListener('click', kek);
+picturesElement.addEventListener('click', ClickPhoto);
 //* обработчик события для крестика
 bigPictureCancelElement.addEventListener('click', kekCancel)
 

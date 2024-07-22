@@ -1,7 +1,5 @@
-import { arrayPic } from './data-generate';
-import { similarPictures } from './render-thumbnail';
+import { arrayPic } from './data-generate.js';
+import {similarPictures} from './render-thumbnail.js'
+
+similarPictures(arrayPic)
 import './big-picture.js';
-
-similarPictures(arrayPic);
-
-console.log(arrayPic)
