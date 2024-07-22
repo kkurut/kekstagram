@@ -9,6 +9,7 @@ const picturesElement = document.querySelector('.pictures');
 const commentLoaderElement = document.querySelector('.comments-loader');
 const bigPictureDescription = bigPictureElement.querySelector('.social__caption');
 const bigPictureComments = bigPictureElement.querySelector('.social__comment-count');
+let like = document.querySelector('.likes-count');
 
 //! не работает уёба
 
@@ -43,14 +44,21 @@ const getBigPhoto = (photoId) => {
   bigPictureElement.querySelector('.big-picture__img img').src = picData.url;
   bigPictureElement.querySelector('.likes-count').textContent = picData.likes;
   bigPictureElement.querySelector('.social__caption').textContent = picData.description;
+
+    like.addEventListener('click', () => {
+    let likes = picData.likes;
+    likes += 1;
+    picData.likes = likes
+    like.textContent = likes
+    })
 };
 
 
 //* функция при клике на миниатюру
-const ClickPhoto = (evt) => {
+const clickPhoto = (evt) => {
   const thumbnail = evt.target.closest('.picture');
   if (thumbnail) {
-    const currentPic = parseInt(thumbnail.querySelector('.picture__img').dataset.photoId, 10);
+    const currentPic = thumbnail.querySelector('.picture__img').dataset.photoId;
     getBigPhoto(currentPic)
     kek()
   }
@@ -58,10 +66,8 @@ const ClickPhoto = (evt) => {
 
 
 
-
-
 //* обработчик событий для миниатюр
-picturesElement.addEventListener('click', ClickPhoto);
+picturesElement.addEventListener('click', clickPhoto);
 //* обработчик события для крестика
 bigPictureCancelElement.addEventListener('click', kekCancel)
 
