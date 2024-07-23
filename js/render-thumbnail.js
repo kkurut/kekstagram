@@ -4,10 +4,10 @@ const pictureTemplateElement = document.querySelector('#picture').content.queryS
 
 const similarPictures = (pictures) => {
   const similarListFragment = document.createDocumentFragment();
-  pictures.forEach(( picture, index ) => {
+  pictures.forEach(( picture, id ) => {
     const pictureElement = pictureTemplateElement.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = picture.url;
-    pictureElement.querySelector('.picture__img').dataset.photoId = index + 1;
+    pictureElement.querySelector('.picture__img').dataset.photoId = id;
     pictureElement.querySelector('.picture__likes').textContent = picture.likes;
     pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
     similarListFragment.append(pictureElement);
