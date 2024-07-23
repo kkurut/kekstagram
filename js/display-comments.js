@@ -24,4 +24,4 @@ const displayComments = (comments) => {
   socialCommentsElement.appendChild(fragment);
 };
 
-export { displayComments }
+export { displayComments };
