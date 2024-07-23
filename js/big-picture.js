@@ -5,8 +5,8 @@ const bigPictureElement = document.querySelector('.big-picture');
 const bigPictureCancelElement = document.querySelector('.big-picture__cancel');
 const picturesElement = document.querySelector('.pictures');
 const socialCommentsElement = bigPictureElement.querySelector('.social__comments');
-const commentsCountElement = bigPictureElement.querySelector('.social__comment-count')
-const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader')
+const commentsCountElement = bigPictureElement.querySelector('.social__comment-count');
+const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 
 const onEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -20,8 +20,8 @@ const onEscKeydown = (evt) => {
 const openBigPicture = () => {
   bigPictureElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  commentsCountElement.classList.add('hidden')
-  commentsLoaderElement.classList.add('hidden')
+  commentsCountElement.classList.add('hidden');
+  commentsLoaderElement.classList.add('hidden');
   document.addEventListener('keydown', onEscKeydown);
 };
 
