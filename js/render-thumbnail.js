@@ -4,7 +4,7 @@ const pictureTemplateElement = document.querySelector('#picture').content.queryS
 
 const similarPictures = (pictures) => {
   const similarListFragment = document.createDocumentFragment();
-  pictures.forEach(( picture, id ) => {
+  pictures.forEach((picture, id) => {
     const pictureElement = pictureTemplateElement.cloneNode(true);
     pictureElement.querySelector('.picture__img').src = picture.url;
     pictureElement.querySelector('.picture__img').dataset.photoId = id;

@@ -133,7 +133,7 @@ const getPicture = () => ({
   comments: Array.from({ length: getRandom(Comment.MIN, Comment.MAX) }, () => getComment()),
 });
 
-const createPictures = (pictureQnty) => Array.from({ length: pictureQnty }, () => getPicture());
+const createPictures = () => Array.from({ length: pictureQnty }, () => getPicture());
 
-const arrayPic = createPictures(25);
+const arrayPic = createPictures();
 export { arrayPic };
