@@ -5,4 +5,9 @@ const getRandom = (a, b) => {
   return Math.floor(result);
 };
 
-export { getRandom };
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const isEnterKey = (evt) => evt.key === 'Enter';
+
+
+export { getRandom, isEnterKey, isEscapeKey };

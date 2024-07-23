@@ -1,4 +1,5 @@
 import { getRandom } from './util.js';
+const pictureQnty = 25;
 const DESCRIPTIONS = [
   '🌟 Живу, мечтаю, создаю.',
   '✈️ Вечно на пути к новому приключению.',
@@ -132,6 +133,7 @@ const getPicture = () => ({
   comments: Array.from({ length: getRandom(Comment.MIN, Comment.MAX) }, () => getComment()),
 });
 
-const createPictures = (pictureQnty) => Array.from({ length: pictureQnty }, () => getPicture());
+const createPictures = () => Array.from({ length: pictureQnty }, () => getPicture());
 
-export {createPictures};
+const arrayPic = createPictures();
+export { arrayPic };
