@@ -1,3 +1,5 @@
-import { createPictures } from './data-generate';
-import { similarPictures } from './render-thumbnail';
-similarPictures(createPictures(25));
+import { arrayPictures } from './data-generate.js';
+import {similarPictures} from './render-thumbnail.js';
+
+similarPictures(arrayPictures);
+import './big-picture.js';

@@ -348,6 +348,8 @@ main {
   width: 86px;
   height: 114px;
 
+  transition: all 0.3s;
+
   background-image: url("../img/upload-button.svg");
   background-repeat: no-repeat;
   background-position: center;
