@@ -1,4 +1,4 @@
-import { isEscapeKey } from './util';
+  import { isEscapeKey } from './util';
 import { arrayPictures } from './data-generate.js';
 import { displayComments } from './display-comments.js';
 const bodyElement = document.querySelector('body');
