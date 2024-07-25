@@ -1,6 +1,8 @@
 const socialCommentsElement = document.querySelector('.social__comments');
 const commentsLoaderElement = document.querySelector('.comments-loader');
 const socialCommentElement = document.querySelector('.social__comment');
+const сommentShownCountElement = document.querySelector('.social__comment-shown-count');
+const сommentTotalCountElement = document.querySelector('.social__comment-total-count');
 
 const NEXT_NUMBERS_QTY = 5;
 
@@ -20,6 +22,7 @@ const createComment = ({ avatar, name, message }) => {
 const displayMoreComments = () => {
   const fragment = document.createDocumentFragment();
   const endIndex = Math.min(startIndex + NEXT_NUMBERS_QTY, currentComments.length);
+  сommentShownCountElement.textContent = endIndex;
 
   currentComments.slice(startIndex, endIndex).forEach((comment) => {
     fragment.appendChild(createComment(comment));
@@ -38,6 +41,7 @@ const displayComments = (comments) => {
   currentComments = comments;
   socialCommentsElement.innerHTML = '';
   commentsLoaderElement.classList.remove('hidden');
+  сommentTotalCountElement.textContent = comments.length;
   displayMoreComments();
 };
 
