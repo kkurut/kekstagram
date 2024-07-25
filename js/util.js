@@ -7,6 +7,4 @@ const getRandom = (a, b) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-
-
 export { getRandom, isEscapeKey };
