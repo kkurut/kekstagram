@@ -9,6 +9,7 @@ const picturesElement = document.querySelector('.pictures');
 const onEscapeKey = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
+    // eslint-disable-next-line
     closeBigPicture();
   }
 };

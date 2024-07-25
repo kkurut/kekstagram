@@ -3,4 +3,4 @@ import {similarPictures} from './render-thumbnail.js';
 import { renderBigPicture } from './big-picture.js';
 
 similarPictures(arrayPictures);
-renderBigPicture(arrayPictures)
+renderBigPicture(arrayPictures);
