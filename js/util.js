@@ -7,7 +7,4 @@ const getRandom = (a, b) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const isEnterKey = (evt) => evt.key === 'Enter';
-
-
-export { getRandom, isEnterKey, isEscapeKey };
+export { getRandom, isEscapeKey };
