@@ -20,15 +20,14 @@ const createComment = ({ avatar, name, message }) => {
 };
 
 const displayMoreComments = () => {
-  const fragment = document.createDocumentFragment();
   const endIndex = Math.min(startIndex + NEXT_NUMBERS_QTY, currentComments.length);
   сommentShownCountElement.textContent = endIndex;
 
   currentComments.slice(startIndex, endIndex).forEach((comment) => {
-    fragment.appendChild(createComment(comment));
+    const commentElement = createComment(comment);
+    socialCommentsElement.appendChild(commentElement);
   });
 
-  socialCommentsElement.appendChild(fragment);
   startIndex += NEXT_NUMBERS_QTY;
 
   if (startIndex >= currentComments.length) {
