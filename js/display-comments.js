@@ -1,27 +1,47 @@
 const socialCommentsElement = document.querySelector('.social__comments');
+const commentsLoaderElement = document.querySelector('.comments-loader');
+const socialCommentElement = document.querySelector('.social__comment');
+const сommentShownCountElement = document.querySelector('.social__comment-shown-count');
+const сommentTotalCountElement = document.querySelector('.social__comment-total-count');
 
-//* создание коментария
+const NEXT_NUMBERS_QTY = 5;
+
+let currentComments = [];
+let startIndex = 0;
+
 const createComment = ({ avatar, name, message }) => {
-  const socialCommentElement = document.querySelector('.social__comment').cloneNode(true);
-  const socialPicture = socialCommentElement.querySelector('.social__picture');
+  const clonedSocialCommentElement = socialCommentElement.cloneNode(true);
+  const socialPicture = clonedSocialCommentElement.querySelector('.social__picture');
 
   socialPicture.src = avatar;
   socialPicture.alt = name;
-  socialCommentElement.querySelector('.social__text').textContent = message;
-  return socialCommentElement;
+  clonedSocialCommentElement.querySelector('.social__text').textContent = message;
+  return clonedSocialCommentElement;
 };
 
-//* создание списка коментариев текущей мииатюры
-const displayComments = (comments) => {
-  const fragment = document.createDocumentFragment();
+const displayMoreComments = () => {
+  const endIndex = Math.min(startIndex + NEXT_NUMBERS_QTY, currentComments.length);
+  сommentShownCountElement.textContent = endIndex;
 
-  comments.forEach((comment) => {
+  currentComments.slice(startIndex, endIndex).forEach((comment) => {
     const commentElement = createComment(comment);
-    fragment.appendChild(commentElement);
+    socialCommentsElement.appendChild(commentElement);
   });
 
-  socialCommentsElement.innerHTML = '';
-  socialCommentsElement.appendChild(fragment);
+  startIndex += NEXT_NUMBERS_QTY;
+
+  if (startIndex >= currentComments.length) {
+    commentsLoaderElement.classList.add('hidden');
+  }
 };
 
-export { displayComments };
+const displayComments = (comments) => {
+  startIndex = 0;
+  currentComments = comments;
+  socialCommentsElement.innerHTML = '';
+  commentsLoaderElement.classList.remove('hidden');
+  сommentTotalCountElement.textContent = comments.length;
+  displayMoreComments();
+};
+
+export { displayComments, displayMoreComments, commentsLoaderElement };
