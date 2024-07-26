@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util';
-import { displayComments, displayMoreComments, commentsLoaderElement } from './display-comments.js';
+import { displayComments } from './display-comments.js';
 
 const bodyElement = document.querySelector('body');
 const bigPictureElement = document.querySelector('.big-picture');
@@ -49,7 +49,6 @@ const renderBigPicture = (array) => {
 
   picturesElement.addEventListener('click', onClickPhoto);
   bigPictureCancelElement.addEventListener('click', closeBigPicture);
-  commentsLoaderElement.addEventListener('click', displayMoreComments);
 };
 
 export { renderBigPicture };
