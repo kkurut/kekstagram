@@ -8,10 +8,9 @@ const cancelFormElement = formUploadElement.querySelector('.img-upload__cancel')
 const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
 const descriptionInputElement = formUploadElement.querySelector('.text__description');
 
-const HASHTAG_STROKE = /^#[A-ZА-ЯЁa-zа-яё0-9]{1,19}$/;
+const HASHTAG_STROKE = /^#[A-ZА-ЯЁa-zа-яё0-9]{2,19}$/;
 const Error = {
   INVALID_UNIQUE: 'хэштеги повторяются',
-  INVALID_TAG_LENGTH: 'превышена допустимая длина хештега',
   INVALID_COUNT: 'превышено количество хэштегов',
   INCORECT_TAG: 'введён невалидный хэштег',
 };
@@ -25,12 +24,6 @@ const pristine = new Pristine(formUploadElement, {
 const getNormalizeStr = (str) => str.trim().split(/\s+/);
 
 const checkValid = (words) => getNormalizeStr(words).every((word) => HASHTAG_STROKE.test(word));
-
-const checkMaxLengthTag = (words) => {
-  const nomalizeStr = getNormalizeStr(words);
-  nomalizeStr.map((word) => word.length);
-  return nomalizeStr.every((word) => word.length <= 19);
-};
 
 const checkWordQnty = (words) => getNormalizeStr(words).length <= 5;
 
@@ -49,7 +42,6 @@ function normalizeAndCheckUniqueness(words) {
 
 pristine.addValidator(hashtagsInputElement, checkValid, Error.INCORECT_TAG);
 pristine.addValidator(hashtagsInputElement, checkWordQnty, Error.INVALID_COUNT);
-pristine.addValidator(hashtagsInputElement, checkMaxLengthTag, Error.INVALID_TAG_LENGTH);
 pristine.addValidator(hashtagsInputElement, normalizeAndCheckUniqueness, Error.INVALID_UNIQUE);
 
 formUploadElement.addEventListener('submit', (evt) => {

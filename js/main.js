@@ -6,4 +6,4 @@ import { openAndCloseForm } from './form.js';
 similarPictures(arrayPictures);
 renderBigPicture(arrayPictures);
 openAndCloseForm();
-import './edit-picture.js'
+import './edit-picture.js';
