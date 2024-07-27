@@ -42,6 +42,8 @@ const displayComments = (comments) => {
   commentsLoaderElement.classList.remove('hidden');
   сommentTotalCountElement.textContent = comments.length;
   displayMoreComments();
+
+  commentsLoaderElement.addEventListener('click', displayMoreComments);
 };
 
-export { displayComments, displayMoreComments, commentsLoaderElement };
+export { displayComments };
