@@ -8,7 +8,7 @@ const overlayFormElement = formUploadElement.querySelector('.img-upload__overlay
 const cancelFormElement = formUploadElement.querySelector('.img-upload__cancel');
 const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
 const descriptionInputElement = formUploadElement.querySelector('.text__description');
-const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview')
+const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview');
 
 const HASHTAG_STROKE = /^(#[A-ZА-ЯЁa-zа-яё0-9]{2,19})?$/;
 const Error = {
@@ -82,11 +82,10 @@ const onFileInputChange = () => {
     const pictureSrc = URL.createObjectURL(file);
     previewImgElement.src = pictureSrc;
     previewEffectElements.forEach((element) => {
-      element.style.backgroundImage = `url("${pictureSrc}")`
-    })
+      element.style.backgroundImage = `url("${pictureSrc}")`;
+    });
   }
   onOpenForm();
-  console.log(file);
 };
 
 const openAndCloseForm = () => {

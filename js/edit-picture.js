@@ -1,13 +1,12 @@
 //редактирование масштаба изображения
-const imgUploadFormElement = document.querySelector('.img-upload')
-const inputFormElement = imgUploadFormElement.querySelector('.img-upload__input');
+const imgUploadFormElement = document.querySelector('.img-upload');
 const valueControlElement = imgUploadFormElement.querySelector('.scale__control--value');
 const biggerControlElement = imgUploadFormElement.querySelector('.scale__control--bigger');
 const smallerControlElement = imgUploadFormElement.querySelector('.scale__control--smaller');
 const previewImgElement = imgUploadFormElement.querySelector('.img-upload__preview img');
 
 //редактирование эффектов
-const fieldsetSliderElement = imgUploadFormElement.querySelector('.img-upload__effect-level')
+const fieldsetSliderElement = imgUploadFormElement.querySelector('.img-upload__effect-level');
 const valueSliderElement = imgUploadFormElement.querySelector('.effect-level__value');
 const sliderFilterElement = imgUploadFormElement.querySelector('.effect-level__slider');
 const noneEffectInputElement = imgUploadFormElement.querySelector('#effect-none');
@@ -16,7 +15,6 @@ const sepiaEffectInputElement = imgUploadFormElement.querySelector('#effect-sepi
 const marvinEffectInputElement = imgUploadFormElement.querySelector('#effect-marvin');
 const phobosEffectInputElement = imgUploadFormElement.querySelector('#effect-phobos');
 const heatEffectInputElement = imgUploadFormElement.querySelector('#effect-heat');
-const previewEffectElement = imgUploadFormElement.querySelector('.effects__preview')
 
 noUiSlider.create(sliderFilterElement, {
   range: {
@@ -37,7 +35,7 @@ noUiSlider.create(sliderFilterElement, {
 
 const getSlider = (slider, min, max, step, effect, unit = '') => {
   slider.addEventListener('click', (evt) => {
-    fieldsetSliderElement.classList.remove('hidden')
+    fieldsetSliderElement.classList.remove('hidden');
     if (evt.target.checked) {
       sliderFilterElement.noUiSlider.updateOptions({
         range: {
@@ -48,13 +46,13 @@ const getSlider = (slider, min, max, step, effect, unit = '') => {
         start: 0,
       });
       sliderFilterElement.noUiSlider.on('update', () => {
-        let effectValue = sliderFilterElement.noUiSlider.get();
+        const effectValue = sliderFilterElement.noUiSlider.get();
         valueSliderElement.value = effectValue;
         previewImgElement.style.filter = `${effect}(${effectValue}${unit})`;
       });
-    };
+    }
   });
-}
+};
 
 const MIN_SCALE = 25;
 const MAX_SCALE = 100;
@@ -62,7 +60,9 @@ const STEP = 25;
 
 const getScaleValue = () => parseInt(valueControlElement.value, 10);
 
-const setScaleValue = (value) => valueControlElement.value = `${value}%`;
+const setScaleValue = (value) => {
+  valueControlElement.value = `${value}%`;
+};
 
 const getScaleStyle = (value) => {
   value = getScaleValue() / 100;
@@ -71,15 +71,15 @@ const getScaleStyle = (value) => {
 };
 
 const onclickBigger = () => {
-  let currentValue = getScaleValue();
+  const currentValue = getScaleValue();
   if (currentValue < MAX_SCALE) {
     const value = setScaleValue(currentValue + STEP);
     getScaleStyle(value);
-  };
-}
+  }
+};
 
 const onclickSmaller = () => {
-  let currentValue = getScaleValue();
+  const currentValue = getScaleValue();
   if (currentValue > MIN_SCALE) {
     const value = setScaleValue(currentValue - STEP);
     getScaleStyle(value);
