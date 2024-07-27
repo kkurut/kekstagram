@@ -2,12 +2,13 @@ import { isEscapeKey } from './util';
 
 const bodyElement = document.querySelector('body');
 const formUploadElement = document.querySelector('.img-upload__form');
-const previewImgElement = formUploadElement.querySelector('.img-upload__preview img')
+const previewImgElement = formUploadElement.querySelector('.img-upload__preview img');
 const inputFormElement = formUploadElement.querySelector('.img-upload__input');
 const overlayFormElement = formUploadElement.querySelector('.img-upload__overlay');
 const cancelFormElement = formUploadElement.querySelector('.img-upload__cancel');
 const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
 const descriptionInputElement = formUploadElement.querySelector('.text__description');
+const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview')
 
 const HASHTAG_STROKE = /^(#[A-ZА-ЯЁa-zа-яё0-9]{2,19})?$/;
 const Error = {
@@ -78,9 +79,14 @@ const onCloseForm = () => {
 const onFileInputChange = () => {
   const file = inputFormElement.files[0];
   if (file) {
-    previewImgElement.src = URL.createObjectURL(file);
+    const pictureSrc = URL.createObjectURL(file);
+    previewImgElement.src = pictureSrc;
+    previewEffectElements.forEach((element) => {
+      element.style.backgroundImage = `url("${pictureSrc}")`
+    })
   }
   onOpenForm();
+  console.log(file);
 };
 
 const openAndCloseForm = () => {
