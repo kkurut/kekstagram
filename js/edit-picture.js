@@ -11,26 +11,28 @@ const STEP = 25; // Шаг изменения
 
 const getScaleValue = () => parseInt(valueControlElement.value, 10);
 
+const setScaleValue = (value) => valueControlElement.value = `${value}%`;
+
 const getScaleStyle = (value) => {
-  value = getScaleValue()/100;
+  value = getScaleValue() / 100;
   previewImgElement.style.transform = `scale(${value})`;
 };
 
-const setScaleValue = (value) => valueControlElement.value = `${value}%`;
+const onclickBigger = () => {
+  let currentValue = getScaleValue();
+  if (currentValue < MAX_SCALE) {
+    const value = setScaleValue(currentValue + STEP);
+    getScaleStyle(value);
+  };
+}
 
+const onclickSmaller = () => {
+  let currentValue = getScaleValue();
+  if (currentValue > MIN_SCALE) {
+    const value = setScaleValue(currentValue - STEP);
+    getScaleStyle(value);
+  }
+};
 
-biggerControlElement.addEventListener('click', () => {
-    let currentValue = getScaleValue();
-    if (currentValue < MAX_SCALE) {
-        const value = setScaleValue(currentValue + STEP);
-        getScaleStyle(value);
-    }
-});
-
-smallerControlElement.addEventListener('click', () => {
-    let currentValue = getScaleValue();
-    if (currentValue > MIN_SCALE) {
-        const value = setScaleValue(currentValue - STEP);
-        getScaleStyle(value);
-    }
-});
+biggerControlElement.addEventListener('click', onclickBigger);
+smallerControlElement.addEventListener('click',);
