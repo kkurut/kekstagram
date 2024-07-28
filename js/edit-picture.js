@@ -48,6 +48,7 @@ const getSlider = (slider, min, max, step, effect, unit = '') => {
       sliderFilterElement.noUiSlider.on('update', () => {
         const effectValue = sliderFilterElement.noUiSlider.get();
         valueSliderElement.value = effectValue;
+        console.log(effectValue);
         previewImgElement.style.filter = `${effect}(${effectValue}${unit})`;
       });
     }

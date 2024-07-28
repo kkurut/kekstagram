@@ -10,7 +10,7 @@ const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
 const descriptionInputElement = formUploadElement.querySelector('.text__description');
 const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview');
 
-const HASHTAG_STROKE = /^(#[A-ZА-ЯЁa-zа-яё0-9]{2,19})?$/;
+const HASHTAG_STROKE = /^(#[a-zа-яё0-9]{2,19})?$/i;
 const Error = {
   INVALID_UNIQUE: 'хэштеги повторяются',
   INVALID_COUNT: 'превышено количество хэштегов',
