@@ -23,7 +23,7 @@ noUiSlider.create(sliderFilterElement, {
   },
   start: 1,
   format: {
-    to: function (value) {
+    to:  (value) => {
       if (Number.isInteger(value)) {
         return value.toFixed(0);
       }
@@ -34,7 +34,7 @@ noUiSlider.create(sliderFilterElement, {
 });
 
 const getSlider = (slider, min, max, step, effect, unit = '') => {
-  slider.addEventListener('click', (evt) => {
+  slider.addEventListener('change', (evt) => {
     fieldsetSliderElement.classList.remove('hidden');
     if (evt.target.checked) {
       sliderFilterElement.noUiSlider.updateOptions({
@@ -45,6 +45,7 @@ const getSlider = (slider, min, max, step, effect, unit = '') => {
         step: step,
         start: 0,
       });
+      sliderFilterElement.noUiSlider.off('update');
       sliderFilterElement.noUiSlider.on('update', () => {
         const effectValue = sliderFilterElement.noUiSlider.get();
         valueSliderElement.value = effectValue;
@@ -99,6 +100,7 @@ const getEditImg = () => {
   noneEffectInputElement.addEventListener('click', (evt) => {
     if (evt.target.checked) {
       fieldsetSliderElement.classList.add('hidden');
+      previewImgElement.style.removeProperty('filter');
     }
   });
 };
