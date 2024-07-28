@@ -55,12 +55,12 @@ formUploadElement.addEventListener('submit', (evt) => {
 
 const isFocused = () => document.activeElement === hashtagsInputElement || document.activeElement === descriptionInputElement;
 
-const onEscapeKey = (evt) => {
+function onEscapeKey(evt) {
   if (isEscapeKey(evt) && !isFocused()) {
     // eslint-disable-next-line
     onCloseForm();
   }
-};
+}
 
 const onOpenForm = () => {
   overlayFormElement.classList.remove('hidden');
