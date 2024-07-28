@@ -10,7 +10,7 @@ const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
 const descriptionInputElement = formUploadElement.querySelector('.text__description');
 const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview');
 
-const HASHTAG_STROKE = /^(#[A-ZА-ЯЁa-zа-яё0-9]{2,19})?$/;
+const HASHTAG_STROKE = /^(#[a-zа-яё0-9]{2,19})?$/i;
 const Error = {
   INVALID_UNIQUE: 'хэштеги повторяются',
   INVALID_COUNT: 'превышено количество хэштегов',
@@ -57,7 +57,6 @@ const isFocused = () => document.activeElement === hashtagsInputElement || docum
 
 const onEscapeKey = (evt) => {
   if (isEscapeKey(evt) && !isFocused()) {
-    // eslint-disable-next-line
     onCloseForm();
   }
 };
@@ -68,13 +67,13 @@ const onOpenForm = () => {
   document.addEventListener('keydown', onEscapeKey);
 };
 
-const onCloseForm = () => {
+function onCloseForm() {
   overlayFormElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscapeKey);
   formUploadElement.reset();
   pristine.reset();
-};
+}
 
 const onFileInputChange = () => {
   const file = inputFormElement.files[0];
