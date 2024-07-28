@@ -96,7 +96,7 @@ const getEditImg = () => {
   getSlider(phobosEffectInputElement, 0, 3, 0.1, 'blur', 'px');
   getSlider(heatEffectInputElement, 0, 3, 0.1, 'brightness');
 
-  noneEffectInputElement.addEventListener('click', (evt) => {
+  noneEffectInputElement.addEventListener('change', (evt) => {
     if (evt.target.checked) {
       fieldsetSliderElement.classList.add('hidden');
       previewImgElement.style.removeProperty('filter');

@@ -55,12 +55,11 @@ formUploadElement.addEventListener('submit', (evt) => {
 
 const isFocused = () => document.activeElement === hashtagsInputElement || document.activeElement === descriptionInputElement;
 
-function onEscapeKey(evt) {
+const onEscapeKey = (evt) => {
   if (isEscapeKey(evt) && !isFocused()) {
-    // eslint-disable-next-line
     onCloseForm();
   }
-}
+};
 
 const onOpenForm = () => {
   overlayFormElement.classList.remove('hidden');
@@ -68,13 +67,13 @@ const onOpenForm = () => {
   document.addEventListener('keydown', onEscapeKey);
 };
 
-const onCloseForm = () => {
+function onCloseForm() {
   overlayFormElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscapeKey);
   formUploadElement.reset();
   pristine.reset();
-};
+}
 
 const onFileInputChange = () => {
   const file = inputFormElement.files[0];
