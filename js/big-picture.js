@@ -22,7 +22,7 @@ function closeBigPicture () {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscapeKey);
-};
+}
 
 const renderBigPicture = (array) => {
   const getBigPhoto = (photoId) => {

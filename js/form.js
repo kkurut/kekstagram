@@ -55,17 +55,16 @@ pristine.addValidator(hashtagsInputElement, normalizeAndCheckUniqueness, Error.I
 pristine.addValidator(descriptionInputElement, checkCommentLenght, Error.INVALID_COMMENT);
 
 
-
 const errorUploadElement = errorUploadTemplateElement.cloneNode(true);
 const closeErrorBtnElement = errorUploadElement.querySelector('.error__button');
 
 const successUploadElement = successUploadTemplateElement.cloneNode(true);
-const closeSuccesBtnElement = successUploadElement.querySelector('.success__button')
+const closeSuccesBtnElement = successUploadElement.querySelector('.success__button');
 
-const kek = (evt) => {
+function kek (evt) {
   if (isEscapeKey(evt)) {
-    removeErrorMessage()
-    document.removeEventListener('keydown', kek)
+    removeErrorMessage();
+    document.removeEventListener('keydown', kek);
   }
 }
 
@@ -75,35 +74,35 @@ const windowTapRemove = (evt) => {
     window.removeEventListener('click', windowTapRemove);
   }
 
-  if (successUploadElement.contains(evt.target))  {
+  if (successUploadElement.contains(evt.target)) {
     successUploadElement.remove();
     window.removeEventListener('click', windowTapRemove);
   }
-}
+};
 
-const removeErrorMessage = () => {
-  errorUploadElement.remove()
+function removeErrorMessage () {
+  errorUploadElement.remove();
   successUploadElement.remove();
 
-  document.removeEventListener('keydown', kek)
+  document.removeEventListener('keydown', kek);
 }
 
 const openSuccessMessage = () => {
   bodyElement.append(successUploadElement);
-  closeSuccesBtnElement.addEventListener('click', removeErrorMessage)
+  closeSuccesBtnElement.addEventListener('click', removeErrorMessage);
   document.addEventListener('keydown', kek);
-  window.addEventListener('click', windowTapRemove)
-}
+  window.addEventListener('click', windowTapRemove);
+};
 
 const openErrorMessage = () => {
   bodyElement.append(errorUploadElement);
-  closeErrorBtnElement.addEventListener('click', removeErrorMessage)
+  closeErrorBtnElement.addEventListener('click', removeErrorMessage);
   document.addEventListener('keydown', kek);
-  window.addEventListener('click', windowTapRemove)
-}
+  window.addEventListener('click', windowTapRemove);
+};
 
 formUploadElement.addEventListener('submit', (evt) => {
-  evt.preventDefault()
+  evt.preventDefault();
   const formData = new FormData(evt.target);
 
   const isValid = pristine.validate();
@@ -116,13 +115,10 @@ formUploadElement.addEventListener('submit', (evt) => {
       .then((response) => {
         if (response.ok) {
           onCloseForm();
-          openSuccessMessage()
+          openSuccessMessage();
         } else {
-          openErrorMessage()
+          openErrorMessage();
         }
-      })
-      .catch((err) => {
-        console.error(err);
       });
   }
 });
@@ -135,7 +131,7 @@ function onEscKeyCloseForm(evt) {
   if (isEscapeKey(evt) && !isFocused() && !hasMessage()) {
     onCloseForm();
   }
-};
+}
 
 const onOpenForm = () => {
   overlayFormElement.classList.remove('hidden');
