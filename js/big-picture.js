@@ -8,8 +8,6 @@ const picturesElement = document.querySelector('.pictures');
 
 const onEscapeKey = (evt) => {
   if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    // eslint-disable-next-line
     closeBigPicture();
   }
 };
@@ -20,7 +18,7 @@ const openBigPicture = () => {
   document.addEventListener('keydown', onEscapeKey);
 };
 
-const closeBigPicture = () => {
+function closeBigPicture () {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscapeKey);
