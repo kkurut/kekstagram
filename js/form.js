@@ -10,8 +10,9 @@ const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
 const descriptionInputElement = formUploadElement.querySelector('.text__description');
 const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview');
 const errorUploadTemplateElement = bodyElement.querySelector('#error').content.querySelector('.error');
+const successUploadTemplateElement = bodyElement.querySelector('#success').content.querySelector('.success');
 
-const POST_URL = 'https://32.javascript.htmlacademy.pro/kekstagramm';
+const POST_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 
 const HASHTAG_STROKE = /^(#[a-zа-яё0-9]{2,19})?$/i;
 const Error = {
@@ -56,20 +57,49 @@ pristine.addValidator(descriptionInputElement, checkCommentLenght, Error.INVALID
 
 
 const errorUploadElement = errorUploadTemplateElement.cloneNode(true);
-const closeErrorBtnElement = errorUploadElement.querySelector('.error__button')
+const closeErrorBtnElement = errorUploadElement.querySelector('.error__button');
+
+const successUploadElement = successUploadTemplateElement.cloneNode(true);
+const closeSuccesBtnElement = successUploadElement.querySelector('.success__button')
+
 const kek = (evt) => {
   if (isEscapeKey(evt)) {
-    errorUploadElement.remove()
+    removeErrorMessage()
     document.removeEventListener('keydown', kek)
   }
 }
 
+const windowTapRemove = (evt) => {
+  if (errorUploadElement.contains(evt.target)) {
+    errorUploadElement.remove();
+    window.removeEventListener('click', windowTapRemove);
+  }
+
+  if (successUploadElement.contains(evt.target))  {
+    successUploadElement.remove();
+    window.removeEventListener('click', windowTapRemove);
+  }
+}
+
+const removeErrorMessage = () => {
+  errorUploadElement.remove()
+  successUploadElement.remove();
+
+  document.removeEventListener('keydown', kek)
+}
+
+const openSuccessMessage = () => {
+  bodyElement.append(successUploadElement);
+  closeSuccesBtnElement.addEventListener('click', removeErrorMessage)
+  document.addEventListener('keydown', kek);
+  window.addEventListener('click', windowTapRemove)
+}
+
 const openErrorMessage = () => {
   bodyElement.append(errorUploadElement);
-  document.addEventListener('keydown', kek)
-  closeErrorBtnElement.addEventListener('click', () => {
-    errorUploadElement.remove()
-  })
+  closeErrorBtnElement.addEventListener('click', removeErrorMessage)
+  document.addEventListener('keydown', kek);
+  window.addEventListener('click', windowTapRemove)
 }
 
 formUploadElement.addEventListener('submit', (evt) => {
@@ -82,11 +112,11 @@ formUploadElement.addEventListener('submit', (evt) => {
       {
         method: 'POST',
         body: formData,
-        credentials: 'same-origin'
       })
       .then((response) => {
         if (response.ok) {
           onCloseForm();
+          openSuccessMessage()
         } else {
           openErrorMessage()
         }
