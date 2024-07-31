@@ -9,6 +9,7 @@ const cancelFormElement = formUploadElement.querySelector('.img-upload__cancel')
 const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
 const descriptionInputElement = formUploadElement.querySelector('.text__description');
 const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview');
+const btnSubmitFormElement = formUploadElement.querySelector('.img-upload__submit');
 const errorUploadTemplateElement = bodyElement.querySelector('#error').content.querySelector('.error');
 const successUploadTemplateElement = bodyElement.querySelector('#success').content.querySelector('.success');
 
@@ -101,12 +102,23 @@ const openErrorMessage = () => {
   window.addEventListener('click', windowTapRemove);
 };
 
+const blockSubmitBtn = () => {
+  btnSubmitFormElement.disabled = true;
+  btnSubmitFormElement.textContent = 'Публикую...'
+}
+
+const unBlockSubmitBtn = () => {
+  btnSubmitFormElement.disabled = false;
+  btnSubmitFormElement.textContent = 'Опубликовать'
+}
+
 formUploadElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const formData = new FormData(evt.target);
 
   const isValid = pristine.validate();
   if (isValid) {
+    blockSubmitBtn();
     fetch(POST_URL,
       {
         method: 'POST',
@@ -116,6 +128,7 @@ formUploadElement.addEventListener('submit', (evt) => {
         if (response.ok) {
           onCloseForm();
           openSuccessMessage();
+          unBlockSubmitBtn();
         } else {
           openErrorMessage();
         }
