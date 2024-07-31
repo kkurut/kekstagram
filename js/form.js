@@ -62,7 +62,7 @@ const closeErrorBtnElement = errorUploadElement.querySelector('.error__button');
 const successUploadElement = successUploadTemplateElement.cloneNode(true);
 const closeSuccesBtnElement = successUploadElement.querySelector('.success__button');
 
-function kek (evt) {
+function kek(evt) {
   if (isEscapeKey(evt)) {
     removeErrorMessage();
     document.removeEventListener('keydown', kek);
@@ -81,7 +81,7 @@ const windowTapRemove = (evt) => {
   }
 };
 
-function removeErrorMessage () {
+function removeErrorMessage() {
   errorUploadElement.remove();
   successUploadElement.remove();
 
@@ -104,13 +104,13 @@ const openErrorMessage = () => {
 
 const blockSubmitBtn = () => {
   btnSubmitFormElement.disabled = true;
-  btnSubmitFormElement.textContent = 'Публикую...'
-}
+  btnSubmitFormElement.textContent = 'Публикую...';
+};
 
 const unBlockSubmitBtn = () => {
   btnSubmitFormElement.disabled = false;
-  btnSubmitFormElement.textContent = 'Опубликовать'
-}
+  btnSubmitFormElement.textContent = 'Опубликовать';
+};
 
 formUploadElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
@@ -125,10 +125,10 @@ formUploadElement.addEventListener('submit', (evt) => {
         body: formData,
       })
       .then((response) => {
+        unBlockSubmitBtn();
         if (response.ok) {
           onCloseForm();
           openSuccessMessage();
-          unBlockSubmitBtn();
         } else {
           openErrorMessage();
         }
