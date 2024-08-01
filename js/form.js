@@ -1,5 +1,7 @@
 import { isEscapeKey } from './util';
 
+import { createSlider } from './edit-picture';
+
 const bodyElement = document.querySelector('body');
 const formUploadElement = bodyElement.querySelector('.img-upload__form');
 const previewImgElement = formUploadElement.querySelector('.img-upload__preview img');
@@ -62,6 +64,8 @@ const closeErrorBtnElement = errorUploadElement.querySelector('.error__button');
 const successUploadElement = successUploadTemplateElement.cloneNode(true);
 const closeSuccesBtnElement = successUploadElement.querySelector('.success__button');
 
+const sliderFilterElement = document.querySelector('.effect-level__slider');
+
 function kek(evt) {
   if (isEscapeKey(evt)) {
     removeErrorMessage();
@@ -70,12 +74,12 @@ function kek(evt) {
 }
 
 const windowTapRemove = (evt) => {
-  if (errorUploadElement.contains(evt.target)) {
+  if (errorUploadElement == (evt.target)) {
     errorUploadElement.remove();
     window.removeEventListener('click', windowTapRemove);
   }
 
-  if (successUploadElement.contains(evt.target)) {
+  if (successUploadElement == (evt.target)) {
     successUploadElement.remove();
     window.removeEventListener('click', windowTapRemove);
   }
@@ -122,7 +126,7 @@ formUploadElement.addEventListener('submit', (evt) => {
     fetch(POST_URL,
       {
         method: 'POST',
-        body: formData,
+        body: formData
       })
       .then((response) => {
         unBlockSubmitBtn();
@@ -147,12 +151,14 @@ function onEscKeyCloseForm(evt) {
 }
 
 const onOpenForm = () => {
+  createSlider();
   overlayFormElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   document.addEventListener('keydown', onEscKeyCloseForm);
 };
 
 function onCloseForm() {
+  sliderFilterElement.noUiSlider.destroy();
   overlayFormElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyCloseForm);

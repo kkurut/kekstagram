@@ -16,22 +16,25 @@ const marvinEffectInputElement = imgUploadFormElement.querySelector('#effect-mar
 const phobosEffectInputElement = imgUploadFormElement.querySelector('#effect-phobos');
 const heatEffectInputElement = imgUploadFormElement.querySelector('#effect-heat');
 
-noUiSlider.create(sliderFilterElement, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 1,
-  format: {
-    to:  (value) => {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(1);
+
+const createSlider = () => {
+  noUiSlider.create(sliderFilterElement, {
+    range: {
+      min: 0,
+      max: 100,
     },
-    from: (value) => parseFloat(value),
-  },
-});
+    start: 1,
+    format: {
+      to: (value) => {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: (value) => parseFloat(value),
+    },
+  });
+}
 
 const getSlider = (slider, min, max, step, effect, unit = '') => {
   slider.addEventListener('change', (evt) => {
@@ -104,4 +107,4 @@ const getEditImg = () => {
   });
 };
 
-export { getEditImg };
+export { getEditImg, createSlider };

@@ -25,6 +25,6 @@ const promise = new Promise((resolve, reject) => {
       errorCreate();
       reject(error);
     });
-});
+}); 
 
 export { promise };
