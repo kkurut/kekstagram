@@ -16,25 +16,22 @@ const marvinEffectInputElement = imgUploadFormElement.querySelector('#effect-mar
 const phobosEffectInputElement = imgUploadFormElement.querySelector('#effect-phobos');
 const heatEffectInputElement = imgUploadFormElement.querySelector('#effect-heat');
 
-
-const createSlider = () => {
-  noUiSlider.create(sliderFilterElement, {
-    range: {
-      min: 0,
-      max: 100,
+noUiSlider.create(sliderFilterElement, {
+  range: {
+    min: 0,
+    max: 100,
+  },
+  start: 1,
+  format: {
+    to:  (value) => {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
     },
-    start: 1,
-    format: {
-      to: (value) => {
-        if (Number.isInteger(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
-      },
-      from: (value) => parseFloat(value),
-    },
-  });
-}
+    from: (value) => parseFloat(value),
+  },
+});
 
 const getSlider = (slider, min, max, step, effect, unit = '') => {
   slider.addEventListener('change', (evt) => {
@@ -90,6 +87,12 @@ const onclickSmaller = () => {
   }
 };
 
+const getOriginalEffect = () => {
+  fieldsetSliderElement.classList.add('hidden');
+  previewImgElement.style.removeProperty('filter');
+  previewImgElement.style.transform = 'scale(1)';
+};
+
 const getEditImg = () => {
   biggerControlElement.addEventListener('click', onclickBigger);
   smallerControlElement.addEventListener('click', onclickSmaller);
@@ -101,10 +104,9 @@ const getEditImg = () => {
 
   noneEffectInputElement.addEventListener('change', (evt) => {
     if (evt.target.checked) {
-      fieldsetSliderElement.classList.add('hidden');
-      previewImgElement.style.removeProperty('filter');
+      getOriginalEffect();
     }
   });
 };
 
-export { getEditImg, createSlider };
+export { getEditImg, getOriginalEffect };

@@ -1,6 +1,6 @@
 import { isEscapeKey } from './util';
 
-import { createSlider } from './edit-picture';
+import { getOriginalEffect } from './edit-picture';
 
 const bodyElement = document.querySelector('body');
 const formUploadElement = bodyElement.querySelector('.img-upload__form');
@@ -12,10 +12,11 @@ const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
 const descriptionInputElement = formUploadElement.querySelector('.text__description');
 const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview');
 const btnSubmitFormElement = formUploadElement.querySelector('.img-upload__submit');
-const errorUploadTemplateElement = bodyElement.querySelector('#error').content.querySelector('.error');
-const successUploadTemplateElement = bodyElement.querySelector('#success').content.querySelector('.success');
 
-const POST_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
+const SubmitButtonText = {
+  CONSTANT: 'Опубликовать',
+  SUBMITING: 'Публикую...'
+};
 
 const HASHTAG_STROKE = /^(#[a-zа-яё0-9]{2,19})?$/i;
 const Error = {
@@ -57,108 +58,43 @@ pristine.addValidator(hashtagsInputElement, checkWordQnty, Error.INVALID_COUNT);
 pristine.addValidator(hashtagsInputElement, normalizeAndCheckUniqueness, Error.INVALID_UNIQUE);
 pristine.addValidator(descriptionInputElement, checkCommentLenght, Error.INVALID_COMMENT);
 
-
-const errorUploadElement = errorUploadTemplateElement.cloneNode(true);
-const closeErrorBtnElement = errorUploadElement.querySelector('.error__button');
-
-const successUploadElement = successUploadTemplateElement.cloneNode(true);
-const closeSuccesBtnElement = successUploadElement.querySelector('.success__button');
-
-const sliderFilterElement = document.querySelector('.effect-level__slider');
-
-function kek(evt) {
-  if (isEscapeKey(evt)) {
-    removeErrorMessage();
-    document.removeEventListener('keydown', kek);
-  }
-}
-
-const windowTapRemove = (evt) => {
-  if (errorUploadElement == (evt.target)) {
-    errorUploadElement.remove();
-    window.removeEventListener('click', windowTapRemove);
-  }
-
-  if (successUploadElement == (evt.target)) {
-    successUploadElement.remove();
-    window.removeEventListener('click', windowTapRemove);
-  }
+const toggleSubmitButton = (isDisabled) => {
+  btnSubmitFormElement.disabled = isDisabled;
+  btnSubmitFormElement.textContent = isDisabled
+    ? SubmitButtonText.SUBMITING
+    : SubmitButtonText.CONSTANT;
 };
 
-function removeErrorMessage() {
-  errorUploadElement.remove();
-  successUploadElement.remove();
-
-  document.removeEventListener('keydown', kek);
-}
-
-const openSuccessMessage = () => {
-  bodyElement.append(successUploadElement);
-  closeSuccesBtnElement.addEventListener('click', removeErrorMessage);
-  document.addEventListener('keydown', kek);
-  window.addEventListener('click', windowTapRemove);
+const onFormSubmit = (callback) => {
+  formUploadElement.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      toggleSubmitButton(true);
+      await callback(new FormData(evt.target));
+      toggleSubmitButton();
+    }
+  });
 };
-
-const openErrorMessage = () => {
-  bodyElement.append(errorUploadElement);
-  closeErrorBtnElement.addEventListener('click', removeErrorMessage);
-  document.addEventListener('keydown', kek);
-  window.addEventListener('click', windowTapRemove);
-};
-
-const blockSubmitBtn = () => {
-  btnSubmitFormElement.disabled = true;
-  btnSubmitFormElement.textContent = 'Публикую...';
-};
-
-const unBlockSubmitBtn = () => {
-  btnSubmitFormElement.disabled = false;
-  btnSubmitFormElement.textContent = 'Опубликовать';
-};
-
-formUploadElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target);
-
-  const isValid = pristine.validate();
-  if (isValid) {
-    blockSubmitBtn();
-    fetch(POST_URL,
-      {
-        method: 'POST',
-        body: formData
-      })
-      .then((response) => {
-        unBlockSubmitBtn();
-        if (response.ok) {
-          onCloseForm();
-          openSuccessMessage();
-        } else {
-          openErrorMessage();
-        }
-      });
-  }
-});
 
 const isFocused = () => document.activeElement === hashtagsInputElement || document.activeElement === descriptionInputElement;
 
-const hasMessage = () => bodyElement.contains(errorUploadElement);
+const hasError = () => Boolean(bodyElement.querySelector('.error'));
 
 function onEscKeyCloseForm(evt) {
-  if (isEscapeKey(evt) && !isFocused() && !hasMessage()) {
+  if (isEscapeKey(evt) && !isFocused() && !hasError()) {
     onCloseForm();
   }
 }
 
 const onOpenForm = () => {
-  createSlider();
   overlayFormElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   document.addEventListener('keydown', onEscKeyCloseForm);
+  getOriginalEffect();
 };
 
 function onCloseForm() {
-  sliderFilterElement.noUiSlider.destroy();
   overlayFormElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyCloseForm);
@@ -183,4 +119,4 @@ const openAndCloseForm = () => {
   cancelFormElement.addEventListener('click', onCloseForm);
 };
 
-export { openAndCloseForm };
+export { openAndCloseForm, onFormSubmit, onCloseForm };
