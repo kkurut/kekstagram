@@ -4,9 +4,11 @@ import { renderBigPicture } from './big-picture';
 import { debounce } from "./util";
 
 const imgFiltersForm = document.querySelector('.img-filters__form');
-const defaultFilter = imgFiltersForm.querySelector('#filter-default');
-const randomFilter = imgFiltersForm.querySelector('#filter-random');
-const discussedFilter = imgFiltersForm.querySelector('#filter-discussed');
+const filters = {
+  default: imgFiltersForm.querySelector('#filter-default'),
+  random: imgFiltersForm.querySelector('#filter-random'),
+  discussed: imgFiltersForm.querySelector('#filter-discussed')
+};
 
 const MAX_RANDOM_PICTURES = 10;
 const picturesContainer = document.querySelector('.pictures');
@@ -24,41 +26,50 @@ const getRandomPictures = (pictures) => {
 };
 
 const clearPictures = () => {
-  const picturesArray = picturesContainer.querySelectorAll('.picture');
-  picturesArray.forEach((pic) => pic.remove());
+  picturesContainer.querySelectorAll('.picture').forEach((pic) => pic.remove());
 };
 
-const applyFilter = (evt, pictures) => {
-  const isButton = evt.target.classList.contains('img-filters__button');
+const applyFilter = (filterType, pictures) => {
+  clearPictures();
+
+  let filteredPictures;
+  switch (filterType) {
+    case 'random':
+      filteredPictures = getRandomPictures(pictures);
+      break;
+    case 'discussed':
+      filteredPictures = [...pictures].sort((a, b) => b.comments.length - a.comments.length);
+      break;
+    case 'default':
+    default:
+      filteredPictures = pictures;
+      break;
+  }
+
+  similarPictures(filteredPictures);
+  renderBigPicture(filteredPictures);
+};
+
+const onFilterButtonClick = (evt, pictures) => {
+  const clickedButton = evt.target;
+  const isButton = clickedButton.classList.contains('img-filters__button');
 
   if (isButton) {
     const activeButton = imgFiltersForm.querySelector('.img-filters__button--active');
     if (activeButton) {
       activeButton.classList.remove('img-filters__button--active');
     }
-    evt.target.classList.add('img-filters__button--active');
+    clickedButton.classList.add('img-filters__button--active');
 
-    clearPictures();
-
-    let filteredPictures;
-
-    if (evt.target === randomFilter) {
-      filteredPictures = getRandomPictures(pictures);
-    } else if (evt.target === defaultFilter) {
-      filteredPictures = pictures;
-    } else if (evt.target === discussedFilter) {
-      filteredPictures = [...pictures].sort((a, b) => b.comments.length - a.comments.length);
-    }
-
-    similarPictures(filteredPictures);
-    renderBigPicture(filteredPictures); // Update the big picture view with the filtered pictures
+    const filterType = Object.keys(filters).find(key => filters[key] === clickedButton);
+    applyFilter(filterType, pictures);
   }
 };
 
-const debouncedApplyFilter = debounce(applyFilter);
+const debouncedOnFilterButtonClick = debounce(onFilterButtonClick, 500);
 
-const togglePictureFilters = (pictures) => {
-  imgFiltersForm.addEventListener('click', (evt) => debouncedApplyFilter(evt, pictures));
+const setupPictureFilters = (pictures) => {
+  imgFiltersForm.addEventListener('click', (evt) => debouncedOnFilterButtonClick(evt, pictures));
 };
 
-export { togglePictureFilters };
+export { setupPictureFilters };
