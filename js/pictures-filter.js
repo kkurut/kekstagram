@@ -1,6 +1,7 @@
 import { generateUniqueId } from "./util";
 import { similarPictures } from "./render-thumbnail";
 import { renderBigPicture } from './big-picture';
+import { debounce } from "./util";
 
 const imgFiltersForm = document.querySelector('.img-filters__form');
 const defaultFilter = imgFiltersForm.querySelector('#filter-default');
@@ -27,33 +28,37 @@ const clearPictures = () => {
   picturesArray.forEach((pic) => pic.remove());
 };
 
-const togglePictureFilters = (pictures) => {
-  imgFiltersForm.addEventListener('click', (evt) => {
-    const isButton = evt.target.classList.contains('img-filters__button');
+const applyFilter = (evt, pictures) => {
+  const isButton = evt.target.classList.contains('img-filters__button');
 
-    if (isButton) {
-      const activeButton = imgFiltersForm.querySelector('.img-filters__button--active');
-      if (activeButton) {
-        activeButton.classList.remove('img-filters__button--active');
-      }
-      evt.target.classList.add('img-filters__button--active');
-
-      clearPictures();
-
-      let filteredPictures;
-
-      if (evt.target === randomFilter) {
-        filteredPictures = getRandomPictures(pictures);
-      } else if (evt.target === defaultFilter) {
-        filteredPictures = pictures;
-      } else if (evt.target === discussedFilter) {
-        filteredPictures = [...pictures].sort((a, b) => b.comments.length - a.comments.length);
-      }
-
-      similarPictures(filteredPictures);
-      renderBigPicture(filteredPictures); // Update the big picture view with the filtered pictures
+  if (isButton) {
+    const activeButton = imgFiltersForm.querySelector('.img-filters__button--active');
+    if (activeButton) {
+      activeButton.classList.remove('img-filters__button--active');
     }
-  });
+    evt.target.classList.add('img-filters__button--active');
+
+    clearPictures();
+
+    let filteredPictures;
+
+    if (evt.target === randomFilter) {
+      filteredPictures = getRandomPictures(pictures);
+    } else if (evt.target === defaultFilter) {
+      filteredPictures = pictures;
+    } else if (evt.target === discussedFilter) {
+      filteredPictures = [...pictures].sort((a, b) => b.comments.length - a.comments.length);
+    }
+
+    similarPictures(filteredPictures);
+    renderBigPicture(filteredPictures); // Update the big picture view with the filtered pictures
+  }
+};
+
+const debouncedApplyFilter = debounce(applyFilter);
+
+const togglePictureFilters = (pictures) => {
+  imgFiltersForm.addEventListener('click', (evt) => debouncedApplyFilter(evt, pictures));
 };
 
 export { togglePictureFilters };
