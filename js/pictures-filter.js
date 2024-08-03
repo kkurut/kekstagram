@@ -1,7 +1,7 @@
-import { generateUniqueId } from "./util";
-import { similarPictures } from "./render-thumbnail";
+import { generateUniqueId } from './util';
+import { similarPictures } from './render-thumbnail';
 import { renderBigPicture } from './big-picture';
-import { debounce } from "./util";
+import { debounce } from './util';
 
 const imgFiltersForm = document.querySelector('.img-filters__form');
 const filters = {
@@ -61,7 +61,7 @@ const onFilterButtonClick = (evt, pictures) => {
     }
     clickedButton.classList.add('img-filters__button--active');
 
-    const filterType = Object.keys(filters).find(key => filters[key] === clickedButton);
+    const filterType = Object.keys(filters).find((key) => filters[key] === clickedButton);
     applyFilter(filterType, pictures);
   }
 };

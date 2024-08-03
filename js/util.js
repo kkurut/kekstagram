@@ -21,7 +21,7 @@ const debounce = (callback, timeoutDelay = 500) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
