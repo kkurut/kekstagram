@@ -1,7 +1,9 @@
 import { isEscapeKey } from './util';
 
+import { getOriginalEffect } from './edit-picture';
+
 const bodyElement = document.querySelector('body');
-const formUploadElement = document.querySelector('.img-upload__form');
+const formUploadElement = bodyElement.querySelector('.img-upload__form');
 const previewImgElement = formUploadElement.querySelector('.img-upload__preview img');
 const inputFormElement = formUploadElement.querySelector('.img-upload__input');
 const overlayFormElement = formUploadElement.querySelector('.img-upload__overlay');
@@ -9,12 +11,19 @@ const cancelFormElement = formUploadElement.querySelector('.img-upload__cancel')
 const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
 const descriptionInputElement = formUploadElement.querySelector('.text__description');
 const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview');
+const btnSubmitFormElement = formUploadElement.querySelector('.img-upload__submit');
+
+const SubmitButtonText = {
+  CONSTANT: 'Опубликовать',
+  SUBMITING: 'Публикую...'
+};
 
 const HASHTAG_STROKE = /^(#[a-zа-яё0-9]{2,19})?$/i;
 const Error = {
   INVALID_UNIQUE: 'хэштеги повторяются',
   INVALID_COUNT: 'превышено количество хэштегов',
   INCORECT_TAG: 'введён невалидный хэштег',
+  INVALID_COMMENT: 'длина комментария больше 140 символов.'
 };
 
 const pristine = new Pristine(formUploadElement, {
@@ -28,6 +37,8 @@ const getNormalizeStr = (str) => str.trim().split(/\s+/);
 const checkValid = (words) => getNormalizeStr(words).every((word) => HASHTAG_STROKE.test(word));
 
 const checkWordQnty = (words) => getNormalizeStr(words).length <= 5;
+
+const checkCommentLenght = (str) => str.length <= 140;
 
 function normalizeAndCheckUniqueness(words) {
   const wordsArray = getNormalizeStr(words.toLowerCase());
@@ -45,32 +56,48 @@ function normalizeAndCheckUniqueness(words) {
 pristine.addValidator(hashtagsInputElement, checkValid, Error.INCORECT_TAG);
 pristine.addValidator(hashtagsInputElement, checkWordQnty, Error.INVALID_COUNT);
 pristine.addValidator(hashtagsInputElement, normalizeAndCheckUniqueness, Error.INVALID_UNIQUE);
+pristine.addValidator(descriptionInputElement, checkCommentLenght, Error.INVALID_COMMENT);
 
-formUploadElement.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
+const toggleSubmitButton = (isDisabled) => {
+  btnSubmitFormElement.disabled = isDisabled;
+  btnSubmitFormElement.textContent = isDisabled
+    ? SubmitButtonText.SUBMITING
+    : SubmitButtonText.CONSTANT;
+};
+
+const onFormSubmit = (callback) => {
+  formUploadElement.addEventListener('submit', async (evt) => {
     evt.preventDefault();
-  }
-});
+    const isValid = pristine.validate();
+    if (isValid) {
+      toggleSubmitButton(true);
+      await callback(new FormData(evt.target));
+      toggleSubmitButton();
+    }
+  });
+};
 
 const isFocused = () => document.activeElement === hashtagsInputElement || document.activeElement === descriptionInputElement;
 
-const onEscapeKey = (evt) => {
-  if (isEscapeKey(evt) && !isFocused()) {
+const hasError = () => Boolean(bodyElement.querySelector('.error'));
+
+function onEscKeyCloseForm(evt) {
+  if (isEscapeKey(evt) && !isFocused() && !hasError()) {
     onCloseForm();
   }
-};
+}
 
 const onOpenForm = () => {
   overlayFormElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  document.addEventListener('keydown', onEscapeKey);
+  document.addEventListener('keydown', onEscKeyCloseForm);
+  getOriginalEffect();
 };
 
 function onCloseForm() {
   overlayFormElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  document.removeEventListener('keydown', onEscapeKey);
+  document.removeEventListener('keydown', onEscKeyCloseForm);
   formUploadElement.reset();
   pristine.reset();
 }
@@ -92,4 +119,4 @@ const openAndCloseForm = () => {
   cancelFormElement.addEventListener('click', onCloseForm);
 };
 
-export { openAndCloseForm };
+export { openAndCloseForm, onFormSubmit, onCloseForm };
