@@ -4,6 +4,7 @@ import { renderBigPicture } from './big-picture.js';
 import { openAndCloseForm, onFormSubmit, onCloseForm } from './form.js';
 import { getEditImg } from './edit-picture.js';
 import { openErrorMessage, openSuccessMessage, openErrorGallery } from './succes-error.js';
+import { togglePictureFilters } from './pictures-filter.js';
 
 onFormSubmit(async (data) => {
   try {
@@ -21,6 +22,7 @@ getData()
     renderBigPicture(data);
     openAndCloseForm();
     getEditImg();
+    togglePictureFilters(data);
   })
   .catch(() => {
     openErrorGallery();

@@ -5,6 +5,15 @@ const getRandom = (a, b) => {
   return Math.floor(result);
 };
 
+const generateUniqueId = (usedIds, min, max) => {
+  let id;
+  do {
+    id = getRandom(min, max);
+  } while (usedIds.has(id));
+  usedIds.add(id);
+  return id;
+};
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandom, isEscapeKey };
+export { getRandom, isEscapeKey, generateUniqueId };
