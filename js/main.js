@@ -1,10 +1,27 @@
-import { arrayPictures } from './data-generate.js';
+import { getData, sendData } from './requests.js';
 import { similarPictures } from './render-thumbnail.js';
 import { renderBigPicture } from './big-picture.js';
-import { openAndCloseForm } from './form.js';
+import { openAndCloseForm, onFormSubmit, onCloseForm } from './form.js';
 import { getEditImg } from './edit-picture.js';
+import { openErrorMessage, openSuccessMessage, openErrorGallery } from './succes-error.js';
 
-similarPictures(arrayPictures);
-renderBigPicture(arrayPictures);
-openAndCloseForm();
-getEditImg();
+onFormSubmit(async (data) => {
+  try {
+    await sendData(data);
+    onCloseForm();
+    openSuccessMessage();
+  } catch {
+    openErrorMessage();
+  }
+});
+
+getData()
+  .then((data) => {
+    similarPictures(data);
+    renderBigPicture(data);
+    openAndCloseForm();
+    getEditImg();
+  })
+  .catch(() => {
+    openErrorGallery();
+  });

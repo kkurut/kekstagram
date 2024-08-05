@@ -87,6 +87,12 @@ const onclickSmaller = () => {
   }
 };
 
+const getOriginalEffect = () => {
+  fieldsetSliderElement.classList.add('hidden');
+  previewImgElement.style.removeProperty('filter');
+  previewImgElement.style.transform = 'scale(1)';
+};
+
 const getEditImg = () => {
   biggerControlElement.addEventListener('click', onclickBigger);
   smallerControlElement.addEventListener('click', onclickSmaller);
@@ -98,10 +104,9 @@ const getEditImg = () => {
 
   noneEffectInputElement.addEventListener('change', (evt) => {
     if (evt.target.checked) {
-      fieldsetSliderElement.classList.add('hidden');
-      previewImgElement.style.removeProperty('filter');
+      getOriginalEffect();
     }
   });
 };
 
-export { getEditImg };
+export { getEditImg, getOriginalEffect };
