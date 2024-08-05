@@ -3,11 +3,12 @@ import { similarPictures } from './render-thumbnail';
 import { renderBigPicture } from './big-picture';
 import { debounce } from './util';
 
-const imgFiltersForm = document.querySelector('.img-filters__form');
+const imgFiltersElement = document.querySelector('.img-filters');
+const imgFiltersFormElement = document.querySelector('.img-filters__form');
 const filters = {
-  default: imgFiltersForm.querySelector('#filter-default'),
-  random: imgFiltersForm.querySelector('#filter-random'),
-  discussed: imgFiltersForm.querySelector('#filter-discussed')
+  default: imgFiltersFormElement.querySelector('#filter-default'),
+  random: imgFiltersFormElement.querySelector('#filter-random'),
+  discussed: imgFiltersFormElement.querySelector('#filter-discussed')
 };
 
 const MAX_RANDOM_PICTURES = 10;
@@ -50,26 +51,32 @@ const applyFilter = (filterType, pictures) => {
   renderBigPicture(filteredPictures);
 };
 
+const setActiveButton = (clickedButton) => {
+  const activeButton = imgFiltersFormElement.querySelector('.img-filters__button--active');
+  if (activeButton) {
+    activeButton.classList.remove('img-filters__button--active');
+  }
+  clickedButton.classList.add('img-filters__button--active');
+};
+
+const debouncedApplyFilter = debounce((filterType, pictures) => {
+  applyFilter(filterType, pictures);
+}, 500);
+
 const onFilterButtonClick = (evt, pictures) => {
   const clickedButton = evt.target;
   const isButton = clickedButton.classList.contains('img-filters__button');
 
   if (isButton) {
-    const activeButton = imgFiltersForm.querySelector('.img-filters__button--active');
-    if (activeButton) {
-      activeButton.classList.remove('img-filters__button--active');
-    }
-    clickedButton.classList.add('img-filters__button--active');
-
+    setActiveButton(clickedButton);
     const filterType = Object.keys(filters).find((key) => filters[key] === clickedButton);
-    applyFilter(filterType, pictures);
+    debouncedApplyFilter(filterType, pictures);
   }
 };
 
-const debouncedOnFilterButtonClick = debounce(onFilterButtonClick, 500);
-
 const setupPictureFilters = (pictures) => {
-  imgFiltersForm.addEventListener('click', (evt) => debouncedOnFilterButtonClick(evt, pictures));
+  imgFiltersFormElement.addEventListener('click', (evt) => onFilterButtonClick(evt, pictures));
+  imgFiltersElement.classList.remove('img-filters--inactive');
 };
 
 export { setupPictureFilters };
