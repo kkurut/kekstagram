@@ -1,11 +1,10 @@
-//редактирование масштаба изображения
+
 const imgUploadFormElement = document.querySelector('.img-upload');
 const valueControlElement = imgUploadFormElement.querySelector('.scale__control--value');
 const biggerControlElement = imgUploadFormElement.querySelector('.scale__control--bigger');
 const smallerControlElement = imgUploadFormElement.querySelector('.scale__control--smaller');
 const previewImgElement = imgUploadFormElement.querySelector('.img-upload__preview img');
 
-//редактирование эффектов
 const fieldsetSliderElement = imgUploadFormElement.querySelector('.img-upload__effect-level');
 const valueSliderElement = imgUploadFormElement.querySelector('.effect-level__value');
 const sliderFilterElement = imgUploadFormElement.querySelector('.effect-level__slider');
@@ -16,24 +15,28 @@ const marvinEffectInputElement = imgUploadFormElement.querySelector('#effect-mar
 const phobosEffectInputElement = imgUploadFormElement.querySelector('#effect-phobos');
 const heatEffectInputElement = imgUploadFormElement.querySelector('#effect-heat');
 
-noUiSlider.create(sliderFilterElement, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 1,
-  format: {
-    to:  (value) => {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(1);
+const createSlider = () => {
+  noUiSlider.create(sliderFilterElement, {
+    range: {
+      min: 0,
+      max: 100,
     },
-    from: (value) => parseFloat(value),
-  },
-});
+    start: 1,
+    format: {
+      to: (value) => {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: (value) => parseFloat(value),
+    },
+    connect: 'lower'
+  });
+  fieldsetSliderElement.classList.add('hidden');
+};
 
-const getSlider = (slider, min, max, step, effect, unit = '') => {
+const getSlider = (slider, min, max, step, start, effect, unit = '') => {
   slider.addEventListener('change', (evt) => {
     fieldsetSliderElement.classList.remove('hidden');
     if (evt.target.checked) {
@@ -43,7 +46,7 @@ const getSlider = (slider, min, max, step, effect, unit = '') => {
           max: max,
         },
         step: step,
-        start: 0,
+        start: start
       });
       sliderFilterElement.noUiSlider.off('update');
       sliderFilterElement.noUiSlider.on('update', () => {
@@ -66,24 +69,25 @@ const setScaleValue = (value) => {
 };
 
 const getScaleStyle = (value) => {
-  value = getScaleValue() / 100;
-  previewImgElement.style.transform = `scale(${value})`;
-  previewImgElement.style.sepia = '(0.6)';
+  const scaleValue = value / 100;
+  previewImgElement.style.transform = `scale(${scaleValue})`;
 };
 
 const onclickBigger = () => {
   const currentValue = getScaleValue();
   if (currentValue < MAX_SCALE) {
-    const value = setScaleValue(currentValue + STEP);
-    getScaleStyle(value);
+    const newValue = currentValue + STEP;
+    setScaleValue(newValue);
+    getScaleStyle(newValue);
   }
 };
 
 const onclickSmaller = () => {
   const currentValue = getScaleValue();
   if (currentValue > MIN_SCALE) {
-    const value = setScaleValue(currentValue - STEP);
-    getScaleStyle(value);
+    const newValue = currentValue - STEP;
+    setScaleValue(newValue);
+    getScaleStyle(newValue);
   }
 };
 
@@ -94,13 +98,14 @@ const getOriginalEffect = () => {
 };
 
 const getEditImg = () => {
+  createSlider();
   biggerControlElement.addEventListener('click', onclickBigger);
   smallerControlElement.addEventListener('click', onclickSmaller);
-  getSlider(chromeEffectInputElement, 0, 1, 0.1, 'grayscale');
-  getSlider(sepiaEffectInputElement, 0, 1, 0.1, 'sepia');
-  getSlider(marvinEffectInputElement, 0, 100, 1, 'invert', '%');
-  getSlider(phobosEffectInputElement, 0, 3, 0.1, 'blur', 'px');
-  getSlider(heatEffectInputElement, 0, 3, 0.1, 'brightness');
+  getSlider(chromeEffectInputElement, 0, 1, 0.1, 1, 'grayscale');
+  getSlider(sepiaEffectInputElement, 0, 1, 0.1, 1, 'sepia');
+  getSlider(marvinEffectInputElement, 0, 100, 1, 100, 'invert', '%');
+  getSlider(phobosEffectInputElement, 0, 3, 0.1, 3, 'blur', 'px');
+  getSlider(heatEffectInputElement, 0, 3, 0.1, 3, 'brightness');
 
   noneEffectInputElement.addEventListener('change', (evt) => {
     if (evt.target.checked) {
@@ -109,4 +114,5 @@ const getEditImg = () => {
   });
 };
 
-export { getEditImg, getOriginalEffect };
+
+export { getEditImg, getOriginalEffect, createSlider };

@@ -1,5 +1,4 @@
 import { isEscapeKey } from './util';
-
 import { getOriginalEffect } from './edit-picture';
 
 const bodyElement = document.querySelector('body');
@@ -18,7 +17,7 @@ const SubmitButtonText = {
   SUBMITING: 'Публикую...'
 };
 
-const HASHTAG_STROKE = /^(#[a-zа-яё0-9]{2,19})?$/i;
+const HASHTAG_STROKE = /^(#[a-zа-яё0-9]{1,19})?$/i;
 const Error = {
   INVALID_UNIQUE: 'хэштеги повторяются',
   INVALID_COUNT: 'превышено количество хэштегов',
@@ -72,7 +71,7 @@ const onFormSubmit = (callback) => {
     if (isValid) {
       toggleSubmitButton(true);
       await callback(new FormData(evt.target));
-      toggleSubmitButton();
+      toggleSubmitButton(false);
     }
   });
 };
@@ -87,20 +86,28 @@ function onEscKeyCloseForm(evt) {
   }
 }
 
-const onOpenForm = () => {
+const hideForm = () => {
+  overlayFormElement.classList.add('hidden');
+};
+
+const showForm = () => {
   overlayFormElement.classList.remove('hidden');
-  bodyElement.classList.add('modal-open');
-  document.addEventListener('keydown', onEscKeyCloseForm);
-  getOriginalEffect();
 };
 
 function onCloseForm() {
-  overlayFormElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyCloseForm);
   formUploadElement.reset();
   pristine.reset();
+  hideForm();
 }
+
+const onOpenForm = () => {
+  bodyElement.classList.add('modal-open');
+  document.addEventListener('keydown', onEscKeyCloseForm);
+  getOriginalEffect();
+  showForm();
+};
 
 const onFileInputChange = () => {
   const file = inputFormElement.files[0];
