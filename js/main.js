@@ -12,7 +12,7 @@ onFormSubmit(async (data) => {
   try {
     await sendData(data);
     openSuccessMessage();
-    onCloseForm()
+    onCloseForm();
   } catch {
     openErrorMessage();
   }

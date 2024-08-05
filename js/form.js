@@ -1,6 +1,5 @@
 import { isEscapeKey } from './util';
 import { getOriginalEffect } from './edit-picture';
-import { createSlider } from './edit-picture';
 
 const bodyElement = document.querySelector('body');
 const formUploadElement = bodyElement.querySelector('.img-upload__form');
@@ -89,25 +88,25 @@ function onEscKeyCloseForm(evt) {
 
 const hideForm = () => {
   overlayFormElement.classList.add('hidden');
-}
+};
 
 const showForm = () => {
   overlayFormElement.classList.remove('hidden');
-}
+};
 
 function onCloseForm() {
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeyCloseForm);
   formUploadElement.reset();
   pristine.reset();
-  hideForm()
+  hideForm();
 }
 
 const onOpenForm = () => {
   bodyElement.classList.add('modal-open');
   document.addEventListener('keydown', onEscKeyCloseForm);
   getOriginalEffect();
-  showForm()
+  showForm();
 };
 
 const onFileInputChange = () => {

@@ -34,7 +34,7 @@ const createSlider = () => {
     connect: 'lower'
   });
   fieldsetSliderElement.classList.add('hidden');
-}
+};
 
 const getSlider = (slider, min, max, step, start, effect, unit = '') => {
   slider.addEventListener('change', (evt) => {
@@ -98,7 +98,7 @@ const getOriginalEffect = () => {
 };
 
 const getEditImg = () => {
-  createSlider()
+  createSlider();
   biggerControlElement.addEventListener('click', onclickBigger);
   smallerControlElement.addEventListener('click', onclickSmaller);
   getSlider(chromeEffectInputElement, 0, 1, 0.1, 1, 'grayscale');
