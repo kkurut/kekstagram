@@ -1,7 +1,6 @@
-import { generateUniqueId } from './util';
+import { generateUniqueId, debounce } from './util';
 import { similarPictures } from './render-thumbnail';
 import { renderBigPicture } from './big-picture';
-import { debounce } from './util';
 
 const imgFiltersElement = document.querySelector('.img-filters');
 const imgFiltersFormElement = document.querySelector('.img-filters__form');
