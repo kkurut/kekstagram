@@ -32,13 +32,13 @@ const pristine = new Pristine(formUploadElement, {
   errorTextClass: 'img-upload__field-wrapper--error',
 });
 
-const getNormalizeStr = (stroke) => stroke.trim().split(/\s+/);
+const getNormalizeStr = (string) => string.trim().split(/\s+/);
 
 const checkValid = (words) => getNormalizeStr(words).every((word) => HASHTAG_STROKE.test(word));
 
 const checkWordQnty = (words) => getNormalizeStr(words).length <= 5;
 
-const checkCommentLenght = (stroke) => stroke.length <= 140;
+const checkCommentLenght = (string) => string.length <= 140;
 
 function normalizeAndCheckUniqueness(words) {
   const wordsArray = getNormalizeStr(words.toLowerCase());
