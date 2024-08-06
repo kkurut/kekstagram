@@ -1,6 +1,8 @@
 import { generateUniqueId, debounce } from './util';
-import { similarPictures } from './render-thumbnail';
+import { displayPictures } from './render-thumbnail';
 import { renderBigPicture } from './big-picture';
+
+const MAX_RANDOM_PICTURES = 10;
 
 const imgFiltersElement = document.querySelector('.img-filters');
 const imgFiltersFormElement = document.querySelector('.img-filters__form');
@@ -9,8 +11,6 @@ const filters = {
   random: imgFiltersFormElement.querySelector('#filter-random'),
   discussed: imgFiltersFormElement.querySelector('#filter-discussed')
 };
-
-const MAX_RANDOM_PICTURES = 10;
 const picturesContainer = document.querySelector('.pictures');
 
 const getRandomPictures = (pictures) => {
@@ -38,7 +38,7 @@ const applyFilter = (filterType, pictures) => {
       filteredPictures = getRandomPictures(pictures);
       break;
     case 'discussed':
-      filteredPictures = [...pictures].sort((a, b) => b.comments.length - a.comments.length);
+      filteredPictures = [...pictures].sort((cake, keks) => keks.comments.length - cake.comments.length);
       break;
     case 'default':
     default:
@@ -46,7 +46,7 @@ const applyFilter = (filterType, pictures) => {
       break;
   }
 
-  similarPictures(filteredPictures);
+  displayPictures(filteredPictures);
   renderBigPicture(filteredPictures);
 };
 

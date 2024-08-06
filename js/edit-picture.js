@@ -1,3 +1,6 @@
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+const STEP = 25;
 
 const imgUploadFormElement = document.querySelector('.img-upload');
 const valueControlElement = imgUploadFormElement.querySelector('.scale__control--value');
@@ -58,10 +61,6 @@ const getSlider = (slider, min, max, step, start, effect, unit = '') => {
   });
 };
 
-const MIN_SCALE = 25;
-const MAX_SCALE = 100;
-const STEP = 25;
-
 const getScaleValue = () => parseInt(valueControlElement.value, 10);
 
 const setScaleValue = (value) => {
@@ -73,7 +72,7 @@ const getScaleStyle = (value) => {
   previewImgElement.style.transform = `scale(${scaleValue})`;
 };
 
-const onclickBigger = () => {
+const onBiggerBtnClick = () => {
   const currentValue = getScaleValue();
   if (currentValue < MAX_SCALE) {
     const newValue = currentValue + STEP;
@@ -82,7 +81,7 @@ const onclickBigger = () => {
   }
 };
 
-const onclickSmaller = () => {
+const onSmallBtnClick = () => {
   const currentValue = getScaleValue();
   if (currentValue > MIN_SCALE) {
     const newValue = currentValue - STEP;
@@ -99,8 +98,8 @@ const getOriginalEffect = () => {
 
 const getEditImg = () => {
   createSlider();
-  biggerControlElement.addEventListener('click', onclickBigger);
-  smallerControlElement.addEventListener('click', onclickSmaller);
+  biggerControlElement.addEventListener('click', onBiggerBtnClick);
+  smallerControlElement.addEventListener('click', onSmallBtnClick);
   getSlider(chromeEffectInputElement, 0, 1, 0.1, 1, 'grayscale');
   getSlider(sepiaEffectInputElement, 0, 1, 0.1, 1, 'sepia');
   getSlider(marvinEffectInputElement, 0, 100, 1, 100, 'invert', '%');
