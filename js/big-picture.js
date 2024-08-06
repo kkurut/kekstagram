@@ -6,27 +6,27 @@ const bigPictureElement = document.querySelector('.big-picture');
 const bigPictureCancelElement = document.querySelector('.big-picture__cancel');
 const picturesElement = document.querySelector('.pictures');
 
-const onEscapeKey = (evt) => {
+const onEscapeKeyClosePicture = (evt) => {
   if (isEscapeKey(evt)) {
-    closeBigPicture();
+    onBigPictureClose();
   }
 };
 
 const openBigPicture = () => {
   bigPictureElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
-  document.addEventListener('keydown', onEscapeKey);
+  document.addEventListener('keydown', onEscapeKeyClosePicture);
 };
 
-function closeBigPicture () {
+function onBigPictureClose () {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  document.removeEventListener('keydown', onEscapeKey);
+  document.removeEventListener('keydown', onEscapeKeyClosePicture);
 }
 
-const renderBigPicture = (array) => {
+const renderBigPicture = (picrures) => {
   const getBigPhoto = (photoId) => {
-    const pictureData = array[photoId];
+    const pictureData = picrures[photoId];
 
     bigPictureElement.dataset.photoId = photoId;
     bigPictureElement.querySelector('.big-picture__img img').src = pictureData.url;
@@ -35,7 +35,7 @@ const renderBigPicture = (array) => {
     displayComments(pictureData.comments);
   };
 
-  const onClickPhoto = (evt) => {
+  const onPictureClick = (evt) => {
     const thumbnail = evt.target.closest('.picture');
 
     if (thumbnail) {
@@ -45,8 +45,8 @@ const renderBigPicture = (array) => {
     }
   };
 
-  picturesElement.addEventListener('click', onClickPhoto);
-  bigPictureCancelElement.addEventListener('click', closeBigPicture);
+  picturesElement.addEventListener('click', onPictureClick);
+  bigPictureCancelElement.addEventListener('click', onBigPictureClose);
 };
 
 export { renderBigPicture };

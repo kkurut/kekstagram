@@ -1,10 +1,10 @@
+const NEXT_NUMBERS_QTY = 5;
+
 const socialCommentsElement = document.querySelector('.social__comments');
 const commentsLoaderElement = document.querySelector('.comments-loader');
 const socialCommentElement = document.querySelector('.social__comment');
 const сommentShownCountElement = document.querySelector('.social__comment-shown-count');
 const сommentTotalCountElement = document.querySelector('.social__comment-total-count');
-
-const NEXT_NUMBERS_QTY = 5;
 
 let currentComments = [];
 let startIndex = 0;
@@ -19,7 +19,7 @@ const createComment = ({ avatar, name, message }) => {
   return clonedSocialCommentElement;
 };
 
-const displayMoreComments = () => {
+const onCommentsLoaderClick = () => {
   const endIndex = Math.min(startIndex + NEXT_NUMBERS_QTY, currentComments.length);
   сommentShownCountElement.textContent = endIndex;
 
@@ -41,9 +41,9 @@ const displayComments = (comments) => {
   socialCommentsElement.innerHTML = '';
   commentsLoaderElement.classList.remove('hidden');
   сommentTotalCountElement.textContent = comments.length;
-  displayMoreComments();
+  onCommentsLoaderClick();
 
-  commentsLoaderElement.addEventListener('click', displayMoreComments);
+  commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);
 };
 
 export { displayComments };

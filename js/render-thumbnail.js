@@ -2,7 +2,7 @@ const pictureContainerElement = document.querySelector('.pictures');
 const pictureTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
 
 
-const similarPictures = (pictures) => {
+const displayPictures = (pictures) => {
   const similarListFragment = document.createDocumentFragment();
   pictures.forEach((picture, id) => {
     const pictureElement = pictureTemplateElement.cloneNode(true);
@@ -16,4 +16,4 @@ const similarPictures = (pictures) => {
   pictureContainerElement.append(similarListFragment);
 };
 
-export {similarPictures};
+export { displayPictures };

@@ -1,17 +1,6 @@
 import { isEscapeKey } from './util';
 import { getOriginalEffect } from './edit-picture';
 
-const bodyElement = document.querySelector('body');
-const formUploadElement = bodyElement.querySelector('.img-upload__form');
-const previewImgElement = formUploadElement.querySelector('.img-upload__preview img');
-const inputFormElement = formUploadElement.querySelector('.img-upload__input');
-const overlayFormElement = formUploadElement.querySelector('.img-upload__overlay');
-const cancelFormElement = formUploadElement.querySelector('.img-upload__cancel');
-const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
-const descriptionInputElement = formUploadElement.querySelector('.text__description');
-const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview');
-const btnSubmitFormElement = formUploadElement.querySelector('.img-upload__submit');
-
 const SubmitButtonText = {
   CONSTANT: 'Опубликовать',
   SUBMITING: 'Публикую...'
@@ -25,19 +14,31 @@ const Error = {
   INVALID_COMMENT: 'длина комментария больше 140 символов.'
 };
 
+const bodyElement = document.querySelector('body');
+const formUploadElement = bodyElement.querySelector('.img-upload__form');
+const previewImgElement = formUploadElement.querySelector('.img-upload__preview img');
+const inputFormElement = formUploadElement.querySelector('.img-upload__input');
+const overlayFormElement = formUploadElement.querySelector('.img-upload__overlay');
+const cancelFormElement = formUploadElement.querySelector('.img-upload__cancel');
+const hashtagsInputElement = formUploadElement.querySelector('.text__hashtags');
+const descriptionInputElement = formUploadElement.querySelector('.text__description');
+const previewEffectElements = formUploadElement.querySelectorAll('.effects__preview');
+const btnSubmitFormElement = formUploadElement.querySelector('.img-upload__submit');
+
+
 const pristine = new Pristine(formUploadElement, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
 });
 
-const getNormalizeStr = (str) => str.trim().split(/\s+/);
+const getNormalizeStr = (stroke) => stroke.trim().split(/\s+/);
 
 const checkValid = (words) => getNormalizeStr(words).every((word) => HASHTAG_STROKE.test(word));
 
 const checkWordQnty = (words) => getNormalizeStr(words).length <= 5;
 
-const checkCommentLenght = (str) => str.length <= 140;
+const checkCommentLenght = (stroke) => stroke.length <= 140;
 
 function normalizeAndCheckUniqueness(words) {
   const wordsArray = getNormalizeStr(words.toLowerCase());
