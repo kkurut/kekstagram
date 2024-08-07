@@ -81,7 +81,7 @@ const isFocused = () => document.activeElement === hashtagsInputElement || docum
 
 const hasError = () => Boolean(bodyElement.querySelector('.error'));
 
-function onEscKeyCloseForm(evt) {
+function onEscapeKeydown(evt) {
   if (isEscapeKey(evt) && !isFocused() && !hasError()) {
     onCloseForm();
   }
@@ -97,7 +97,7 @@ const showForm = () => {
 
 function onCloseForm() {
   bodyElement.classList.remove('modal-open');
-  document.removeEventListener('keydown', onEscKeyCloseForm);
+  document.removeEventListener('keydown', onEscapeKeydown);
   formUploadElement.reset();
   pristine.reset();
   hideForm();
@@ -105,7 +105,7 @@ function onCloseForm() {
 
 const onOpenForm = () => {
   bodyElement.classList.add('modal-open');
-  document.addEventListener('keydown', onEscKeyCloseForm);
+  document.addEventListener('keydown', onEscapeKeydown);
   getOriginalEffect();
   showForm();
 };
