@@ -13,7 +13,7 @@ const closeSuccesBtnElement = successUploadElement.querySelector('.success__butt
 
 function onEscapeKeydown(evt) {
   if (isEscapeKey(evt)) {
-    removeErrorMessage();
+    onMessageCloseClick();
     document.removeEventListener('keydown', onEscapeKeydown);
   }
 }
