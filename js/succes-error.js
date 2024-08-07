@@ -18,15 +18,15 @@ function onEscapeKeydown(evt) {
   }
 }
 
-const windowTapRemove = (evt) => {
+const onWindowClick = (evt) => {
   if (errorUploadElement === (evt.target)) {
     errorUploadElement.remove();
-    window.removeEventListener('click', windowTapRemove);
+    window.removeEventListener('click', onWindowClick);
   }
 
   if (successUploadElement === (evt.target)) {
     successUploadElement.remove();
-    window.removeEventListener('click', windowTapRemove);
+    window.removeEventListener('click', onWindowClick);
   }
 };
 
@@ -41,14 +41,14 @@ const openSuccessMessage = () => {
   bodyElement.append(successUploadElement);
   closeSuccesBtnElement.addEventListener('click', onMessageCloseClick);
   document.addEventListener('keydown', onEscapeKeydown);
-  window.addEventListener('click', windowTapRemove);
+  window.addEventListener('click', onWindowClick);
 };
 
 const openErrorMessage = () => {
   bodyElement.append(errorUploadElement);
   closeErrorBtnElement.addEventListener('click', onMessageCloseClick);
   document.addEventListener('keydown', onEscapeKeydown);
-  window.addEventListener('click', windowTapRemove);
+  window.addEventListener('click', onWindowClick);
 };
 
 const openErrorGallery = () => {
