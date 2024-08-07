@@ -83,7 +83,7 @@ const hasError = () => Boolean(bodyElement.querySelector('.error'));
 
 function onEscapeKeydown(evt) {
   if (isEscapeKey(evt) && !isFocused() && !hasError()) {
-    onCloseForm();
+    onFormCloseClick();
   }
 }
 
