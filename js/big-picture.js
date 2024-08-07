@@ -18,7 +18,7 @@ const openBigPicture = () => {
   document.addEventListener('keydown', onEscapeKeyClosePicture);
 };
 
-function onBigPictureClose () {
+function onBigPictureCancelClick () {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscapeKeyClosePicture);
@@ -46,7 +46,7 @@ const renderBigPicture = (picrures) => {
   };
 
   picturesElement.addEventListener('click', onPictureClick);
-  bigPictureCancelElement.addEventListener('click', onBigPictureClose);
+  bigPictureCancelElement.addEventListener('click', onBigPictureCancelClick);
 };
 
 export { renderBigPicture };
