@@ -8,7 +8,7 @@ const picturesElement = document.querySelector('.pictures');
 
 const onEscapeKeydown = (evt) => {
   if (isEscapeKey(evt)) {
-    onBigPictureClose();
+    onBigPictureCancelClick();
   }
 };
 
