@@ -11,10 +11,10 @@ const closeErrorBtnElement = errorUploadElement.querySelector('.error__button');
 const successUploadElement = successUploadTemplateElement.cloneNode(true);
 const closeSuccesBtnElement = successUploadElement.querySelector('.success__button');
 
-function onEscKeyMessages(evt) {
+function onEscapeKeydown(evt) {
   if (isEscapeKey(evt)) {
     removeErrorMessage();
-    document.removeEventListener('keydown', onEscKeyMessages);
+    document.removeEventListener('keydown', onEscapeKeydown);
   }
 }
 
@@ -34,20 +34,20 @@ function onMessageCloseClick() {
   errorUploadElement.remove();
   successUploadElement.remove();
 
-  document.removeEventListener('keydown', onEscKeyMessages);
+  document.removeEventListener('keydown', onEscapeKeydown);
 }
 
 const openSuccessMessage = () => {
   bodyElement.append(successUploadElement);
   closeSuccesBtnElement.addEventListener('click', onMessageCloseClick);
-  document.addEventListener('keydown', onEscKeyMessages);
+  document.addEventListener('keydown', onEscapeKeydown);
   window.addEventListener('click', windowTapRemove);
 };
 
 const openErrorMessage = () => {
   bodyElement.append(errorUploadElement);
   closeErrorBtnElement.addEventListener('click', onMessageCloseClick);
-  document.addEventListener('keydown', onEscKeyMessages);
+  document.addEventListener('keydown', onEscapeKeydown);
   window.addEventListener('click', windowTapRemove);
 };
 
