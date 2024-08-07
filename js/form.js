@@ -95,7 +95,7 @@ const showForm = () => {
   overlayFormElement.classList.remove('hidden');
 };
 
-function onCloseForm() {
+function onFormCloseClick() {
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscapeKeydown);
   formUploadElement.reset();
@@ -124,7 +124,7 @@ const onFileInputChange = () => {
 
 const openAndCloseForm = () => {
   inputFormElement.addEventListener('change', onFileInputChange);
-  cancelFormElement.addEventListener('click', onCloseForm);
+  cancelFormElement.addEventListener('click', onFormCloseClick);
 };
 
-export { openAndCloseForm, onFormSubmit, onCloseForm };
+export { openAndCloseForm, onFormSubmit, onFormCloseClick };
