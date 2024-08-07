@@ -1,4 +1,4 @@
-import { openAndCloseForm, onFormSubmit, onCloseForm } from './form.js';
+import { openAndCloseForm, onFormSubmit, onFormCloseClick } from './form.js';
 import { setupPictureFilters } from './pictures-filter.js';
 import { openErrorMessage, openSuccessMessage, openErrorGallery } from './succes-error.js';
 import { getEditImg } from './edit-picture.js'; import { getData, sendData } from './requests.js';
@@ -12,7 +12,7 @@ onFormSubmit(async (data) => {
   try {
     await sendData(data);
     openSuccessMessage();
-    onCloseForm();
+    onFormCloseClick();
   } catch {
     openErrorMessage();
   }
