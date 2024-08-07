@@ -30,7 +30,7 @@ const windowTapRemove = (evt) => {
   }
 };
 
-function removeErrorMessage() {
+function onMessageCloseClick() {
   errorUploadElement.remove();
   successUploadElement.remove();
 
@@ -39,14 +39,14 @@ function removeErrorMessage() {
 
 const openSuccessMessage = () => {
   bodyElement.append(successUploadElement);
-  closeSuccesBtnElement.addEventListener('click', removeErrorMessage);
+  closeSuccesBtnElement.addEventListener('click', onMessageCloseClick);
   document.addEventListener('keydown', onEscKeyMessages);
   window.addEventListener('click', windowTapRemove);
 };
 
 const openErrorMessage = () => {
   bodyElement.append(errorUploadElement);
-  closeErrorBtnElement.addEventListener('click', removeErrorMessage);
+  closeErrorBtnElement.addEventListener('click', onMessageCloseClick);
   document.addEventListener('keydown', onEscKeyMessages);
   window.addEventListener('click', windowTapRemove);
 };
